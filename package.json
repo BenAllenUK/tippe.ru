@@ -1,0 +1,22 @@
+{
+  "name": "tippe.ru",
+  "version": "1.0.0",
+  "description": "Tell us your secrets",
+  "main": "site/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenAllenUK/tippe.ru.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenAllenUK/tippe.ru/issues"
+  },
+  "homepage": "https://github.com/BenAllenUK/tippe.ru#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
