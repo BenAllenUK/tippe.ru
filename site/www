@@ -3,10 +3,13 @@
 /**
  * Module dependencies.
  */
+"use strict";
 
 var app = require('./app');
 var debug = require('debug')('test:server');
 var http = require('http');
+
+require('dotenv').config({path:  __dirname + '/.env'});
 
 /**
  * Get port from environment and store in Express.
@@ -25,9 +28,9 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
 server.on('listening', onListening);
+server.on('error', onError);
+server.listen(port);
 
 /**
  * Normalize a port into a number, string, or false.

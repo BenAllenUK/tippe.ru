@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  h1 Login
+  div(class="row")
+   form(class="col s12" id="frm-login")
+    div(class="row")
+     div(class="input-field col s12")
+       input(id="username" type="email")
+       label(for="username") Username / Email
+     div(class="row")
+       div(class="input-field col s12")
+         input(id="password-login" type="password" class="validate")
+         label(for="password") Password
+  hr
+  h1 Create Account
+  div(class="row")
+   form(class="col s12" id="frm-register")
+    div(class="row")
+     div(class="input-field col s12")
+       input(id="email" type="email" class="validate")
+       label(for="email" data-error="Invalid Email") Email
+     div(class="row")
+       div(class="input-field col s12")
+         input(id="password-register" type="password" class="validate")
+         label(for="password") Password
+         i Passwords must be at least 8 characters long
+  div(id='google-signin-button')
+  script(src="/javascripts/keys.js")
+  script(src="/javascripts/login.js")
+  script(src="https://apis.google.com/js/platform.js?onload=onGooglePlatformLoaded", async, defer)
