@@ -36,9 +36,18 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express2', items: posts });
 });
 
+router.get('/api/posts/:id', function(req, res, next) {
+	let itemId = req.params.id;
+	console.log(itemId);
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify(posts[0]));
+});
+
 router.get('/api/posts', function(req, res, next) {
   res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(posts));
 });
+
+
 
 module.exports = router;

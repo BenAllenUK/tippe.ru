@@ -1,9 +1,130 @@
-* { padding: 0; margin: 0; }
+body, html { padding: 0; margin: 0; }
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #eee;
 }
 
 a {
   color: #00B7FF;
+}
+
+/* Pages */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.container {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 100px auto;
+}
+
+.mainPage {
+  transform: translateX(0);
+}
+
+.postPage {
+  visibility: hidden;
+  transform: translateX(100%);
+}
+
+
+.posts-empty {
+  text-align: center;
+  padding: 50px;
+}
+
+.posts-refresh {
+  margin: 20px auto;
+  text-align: center;
+  display: block;
+}
+
+.posts-refresh svg {
+  margin: 0 auto;
+  width: 40px;
+  height: 40px;
+  fill: grey;
+}
+
+.posts-profile {
+  background: #eee;
+  width: 48px;
+  height: 48px;
+  margin: 50% auto 0;
+  transform: translateY(-50%);
+}
+
+.posts-profile-icon {
+  background: #eee;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+}
+
+.card-votes {
+  position: relative;
+}
+
+.card-upvotes, .card-downvotes {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  left: 0;
+}
+
+.card-upvotes {
+  top: 0;
+}
+
+.card-downvotes {
+  top: 50px;
+}
+
+/** MATERIALIZE OVERRIDES */
+
+.card .card-content {
+  padding: 0px;
+}
+
+
+/** Animation **/
+
+.posts-refresh-animate svg {
+  animation: spin;
+  animation-duration: 0.4s;
+  animation-iteration-count: infinite;
+}
+
+.page-animate-left {
+  /*animation: moveleft;*/
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+
+.page-animate-right {
+  /*animation: moveleft;*/
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+
+
+/* KEYFRAMES */
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
 }
