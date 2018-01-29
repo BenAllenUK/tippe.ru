@@ -4,7 +4,14 @@
 
 Tell us your secrets
 
-
 ## Get started
  1) `npm install`
  2) `node site/www`
+
+## To run unit tests
+ 1) `npm install -g mocha`
+ 2) `npm test`
+
+## To create unit tests
+
+Add a new file with the naming convention \[testname\]-test.js in the site/test directory
