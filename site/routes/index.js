@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 
@@ -36,11 +38,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express2', items: posts });
 });
 
+
 router.get('/api/posts/:id', function(req, res, next) {
 	let itemId = req.params.id;
 	console.log(itemId);
 	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(posts[0]));
+
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Login' });
 });
 
 router.get('/api/posts', function(req, res, next) {
