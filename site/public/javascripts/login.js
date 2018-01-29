@@ -42,7 +42,7 @@ function onGoogleSignIn(googleUser)
   xhr.open('POST', API_ROOT + "/token");
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onload = function() {
-    onAccessTokenReponse(xhr.responseText);
+    onAccessTokenReponse(xhr);
   };
   xhr.send(JSON.stringify({googleIdToken: googleUser.getAuthResponse().id_token}));
 }

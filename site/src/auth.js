@@ -75,7 +75,7 @@ Auth.checkPassword = function(queryPassword, storedPassword)
 // returns true if the input password follows the password rules set out
 Auth.validatePassword = function(password)
   {
-    return password.length() > 7;
+    return password.length > 7;
   };
 
 // returns the hash for the input password
