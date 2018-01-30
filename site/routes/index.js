@@ -44,6 +44,7 @@ router.get('/api/posts/:id', function(req, res, next) {
 	console.log(itemId);
 	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(posts[0]));
+});
 
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' });
