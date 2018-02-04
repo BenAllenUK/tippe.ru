@@ -1,3 +1,6 @@
+# Google App Engine Secret file
+client-secret.json
+
 # Logs
 logs
 *.log
@@ -59,4 +62,3 @@ typings/
 
 # dotenv environment variables file
 .env
-

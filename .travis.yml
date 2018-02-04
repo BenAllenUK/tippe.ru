@@ -1,17 +1,15 @@
 language: node_js
-
 node_js:
-  - "6"
-
+- '6'
 before_install:
-  - npm install -g mocha
-
+- openssl aes-256-cbc -K $encrypted_e94654146049_key -iv $encrypted_e94654146049_iv
+  -in client-secret.json.enc -out client-secret.json -d
+- npm install -g mocha
 cache:
   directories:
-    - "node_modules"
-
+  - node_modules
 deploy:
   provider: gae
-  keyfile: "client-secret.json.enc"
-  project: "tipperu-1517012271502"
+  keyfile: client-secret.json
+  project: tipperu-1517012271502
   on: master
