@@ -7,20 +7,28 @@ before(function()
   require('dotenv').config({path:  __dirname + '/../.env'});
 });
 
+// data
+var validPasswords = ["helloWorld", "123456789", "a1b2c3d4e5", "abcdefgh", "abcdefgh123456789"];
+var invalidPasswords = ["h", "", "123456"];
+
 describe('Auth', function()
 {
-  it('validatePassword should return false for short passwords', function()
+  describe('validatePassword should return false for invalid passwords', function()
   {
-    expect(Auth.validatePassword('')).to.equal(false);
-    expect(Auth.validatePassword('aa')).to.equal(false);
-    expect(Auth.validatePassword('12')).to.equal(false);
-    expect(Auth.validatePassword('abcdefg')).to.equal(false);
+     invalidPasswords.forEach(function(item) {
+       it(item, function() {
+         expect(Auth.validatePassword(item)).to.equal(false);
+      });
+    });
   });
 
-  it('validatePassword should return true for passwords longer than 7 characters', function()
+  describe('validatePassword should return true for valid passwords', function()
   {
-    expect(Auth.validatePassword('abcdefgh')).to.equal(true);
-    expect(Auth.validatePassword('abcdefgh123456789')).to.equal(true);
+    validPasswords.forEach(function(item) {
+      if(item, function() {
+        expect(Auth.validatePassword(item)).to.equal(true);
+      });
+    });
   });
 
   it('generateAccessToken should return different tokens for different parameters', function()
@@ -76,5 +84,59 @@ describe('Auth', function()
 
     expect(Auth.validateAccessTokenForUser(Auth.generateAccessToken(userID2, curUnixTime + 1),          userID2)).to.equal(true);
     expect(Auth.validateAccessTokenForUser(Auth.generateAccessToken(userID2, curUnixTime + (60 * 60)),  userID2)).to.equal(true);
+  });
+
+  describe('checkPassword should return true for matching passwords', function()
+  {
+    validPasswords.forEach(function(item) {
+      it(item, function()  {
+        expect(Auth.checkPassword(item, Auth.hashPassword(item))).to.equal(true);
+      });
+    });
+  });
+
+  describe('checkPassword should return false for invalid passwords', function()
+  {
+    invalidPasswords.forEach(function(item) {
+      it(item, function() {
+        expect(Auth.checkPassword(item, Auth.hashPassword(item))).to.equal(false);
+      });
+    });
+  });
+
+  describe('hashPassword', function()
+  {
+    let inputs = validPasswords.concat(invalidPasswords);
+
+    describe('hashPassword should not return the same value for different inputs', function()
+    {
+      inputs.forEach(function(item1,index1) {
+        inputs.forEach(function(item2,index2) {
+          if(index1 == index2) return;
+
+          it(item1 + " != " + item2, function() {
+            expect(Auth.hashPassword(item1)).not.to.equal(Auth.hashPassword(item2));
+          });
+        });
+      });
+    });
+
+    describe('hashPassword should not return the same as the password itself', function()
+    {
+      inputs.forEach(function(item) {
+        it(item, function() {
+          expect(Auth.hashPassword(item)).not.to.equal(item);
+        });
+      });
+    });
+
+    describe('hashPassword should be deterministic', function()
+    {
+      inputs.forEach(function(item) {
+        it(item, function() {
+          expect(Auth.hashPassword(item)).to.equal(Auth.hashPassword(item));
+        });
+      });
+    });
   });
 });

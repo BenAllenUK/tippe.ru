@@ -3,6 +3,8 @@
 var jwt = require('jsonwebtoken');
 var { OAuth2Client } = require('google-auth-library');
 
+var crypto = require('crypto');
+
 var Auth = function() {}
 
 // generates a token to send back to the user
@@ -81,8 +83,7 @@ Auth.validatePassword = function(password)
 // returns the hash for the input password
 Auth.hashPassword = function(password)
   {
-    // TODO: Hash password
-    return password;
+    return crypto.createHash('sha256').update(password).digest('hex');
   };
 
 module.exports = Auth;
