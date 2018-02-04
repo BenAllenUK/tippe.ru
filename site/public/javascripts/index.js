@@ -1,6 +1,13 @@
 
 
 window.onload = function() {
+	if(!IsLoggedIn())
+	{
+		redirectToLogin();
+	}
+
+	console.log("Logged in as : " + GetLoggedInUserID());
+
 	setTimeout(onRefresh, 1000);
 };
 
@@ -16,8 +23,8 @@ const markup = message => `
  	<div class="col s8">
     <span class="card-title">${message.userName}</span>
     <p class="card-content">${message.message}</p>
-    
-    
+
+
 	</div>
 	<div class="col s2">
 		<div class="card-votes">

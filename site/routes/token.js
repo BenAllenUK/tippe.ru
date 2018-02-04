@@ -87,6 +87,7 @@ function generateAccessTokenForUser(userID, req, res, next)
   }
 
   res.setHeader('Content-Type', 'application/json');
+  res.cookie('tippe.ru.token', token.token, {expires: new Date(token.expires * 1000)});
 	res.send(JSON.stringify(token));
 }
 

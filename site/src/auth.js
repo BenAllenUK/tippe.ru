@@ -82,7 +82,7 @@ Auth.validatePassword = function(password)
 Auth.hashPassword = function(password)
   {
     // TODO: Hash password
-    return '';
+    return password;
   };
 
 module.exports = Auth;

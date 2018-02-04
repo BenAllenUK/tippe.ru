@@ -1,3 +1,17 @@
+Initialise();
+
+function Initialise()
+{
+  let loginButton = document.getElementById("login-submit");
+  let registerButton = document.getElementById("register-submit");
+  let register2Button = document.getElementById("register2-submit");
+
+  loginButton.addEventListener("click", onManualSignIn);
+  registerButton.addEventListener("click", onManualRegister);
+  register2Button.addEventListener("click", onFinialiseRegister);
+}
+
+
 // this function is called when the google script has finished loading in the background
 function onGooglePlatformLoaded()
 {
@@ -32,22 +46,77 @@ function onGoogleFullyInitialised()
 
 function onGoogleSignIn(googleUser)
 {
-  // TODO:
   // 1. parse out the user ID and details and send them to the server for an access token
   // 2a. if the server returns an error of user does not exist - take the user to setup a new account
   // 2b. if the token is valid redirect to the main app page
   // 3. once the user has completed the new user setup page
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', API_ROOT + "/token");
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = function() {
-    onAccessTokenReponse(xhr);
-  };
-  xhr.send(JSON.stringify({googleIdToken: googleUser.getAuthResponse().id_token}));
+  APIRequest("POST", "/api/token", JSON.stringify({googleIdToken: googleUser.getAuthResponse().id_token}), function(status, responseObj) {
+      onGoogleAccessTokenReponse(status, responseObj);
+  });
 }
 
-function onAccessTokenReponse(request)
+function onGoogleAccessTokenReponse(status, responseObj)
 {
-  console.log(request.responseText);
+  if(status == 200)
+  {
+    redirectToApp();
+    return;
+  }
+
+  if(responseObj.title == "UserNotFound")
+  {
+    // TODO: Re-enable this when the register page is working properly
+    //showRegisterPage();
+  }
+}
+
+function onManualSignIn()
+{
+  document.getElementById("login-submit").innerHTML = "Logging in...";
+
+
+  // create an AJAX request
+  APIRequest("POST", "/api/token", JSON.stringify({usernameEmail: document.getElementById("usernameemail").value, password: document.getElementById("password-login").value}), function(status, responseObj) {
+      onManualAccessTokenResponse(status, responseObj);
+  });
+}
+
+function onManualAccessTokenResponse(status, responseObj)
+{
+  if(status == 200)
+  {
+    redirectToApp();
+    return;
+  }
+
+  document.getElementById("login-submit").innerHTML = "Login";
+  document.getElementById("login-error").innerHTML = "An error occurred when logging in : " + responseObj.message;
+}
+
+function onManualRegister()
+{
+  document.getElementById("register-submit").innerHTML = "Creating account...";
+}
+
+function onFinialiseRegister()
+{
+  APIRequest("PUT", "/api/user", JSON.stringify({email: "", username: "", password: ""}), function(status, responseObj) {
+      onFinialiseRegisterResponse(status, responseObj);
+  });
+}
+
+function onFinialiseRegisterResponse(status, responseObj)
+{
+  if(status == 200)
+  {
+    redirectToApp();
+    return;
+  }
+}
+
+function showRegisterPage()
+{
+  $(".loginPage").hide();
+  $(".registerPage").show();
 }

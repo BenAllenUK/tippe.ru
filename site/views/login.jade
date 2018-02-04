@@ -1,31 +1,53 @@
 extends layout
 
 block content
-  h1 Login
-  div(class="row")
-   form(class="col s12" id="frm-login")
+
+  .loginPage
     div(class="row")
-     div(class="input-field col s12")
-       input(id="username" type="email")
-       label(for="username") Username / Email
-     div(class="row")
+    
+     form(class="col s12 l6" id="frm-login" onsubmit="return false;")
+      h1 Login
+      div(class="row")
        div(class="input-field col s12")
-         input(id="password-login" type="password" class="validate")
-         label(for="password") Password
-  hr
-  h1 Create Account
-  div(class="row")
-   form(class="col s12" id="frm-register")
-    div(class="row")
-     div(class="input-field col s12")
-       input(id="email" type="email" class="validate")
-       label(for="email" data-error="Invalid Email") Email
-     div(class="row")
+         input(id="usernameemail" type="text")
+         label(for="usernameemail") Username / Email
+      div(class="row")
        div(class="input-field col s12")
-         input(id="password-register" type="password" class="validate")
+         input(id="password-login" type="password")
+         label(for="password-login") Password
+      div(class="row")
+       i(id="login-error" class="col s12 error-text")
+      div(class="row")
+       button(id="login-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Login
+     
+     form(class="col s12 l6" id="frm-register" onsubmit="return false;")
+      h1 Create Account
+      div(class="row")
+       div(class="input-field col s12")
+         input(id="email" type="email" class="validate")
+         label(for="email" data-error="Invalid Email") Email
+      div(class="row")
+       div(class="input-field col s12")
+         input(id="password-register" type="password")
          label(for="password") Password
          i Passwords must be at least 8 characters long
-  div(id='google-signin-button')
+      div(class="row")
+       i(id="register-error" class="col s12 error-text")
+      div(class="row")
+       button(id="register-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
+    div(id='google-signin-button')
+  
+  .registerPage
+    .row
+      form(class="col s12" id="frm-register2" onsubmit="return false;")
+        h1 Finish creating your account
+        div(class="row")
+          div(class="input-field col s12")
+            input(id="username" type="text")
+            label(for="username") Username
+        div(class="row")
+         button(id="register2-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
+  
   script(src="/javascripts/keys.js")
   script(src="/javascripts/login.js")
   script(src="https://apis.google.com/js/platform.js?onload=onGooglePlatformLoaded", async, defer)

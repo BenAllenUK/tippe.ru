@@ -86,6 +86,22 @@ nav {
   top: 50px;
 }
 
+/** Login */
+.loginPage
+{
+  display: block;
+}
+
+.registerPage
+{
+  display: none;
+}
+
+.error-text
+{
+  color: #F00;
+}
+
 /** MATERIALIZE OVERRIDES */
 
 .card .card-content {
