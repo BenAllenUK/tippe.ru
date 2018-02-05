@@ -1,5 +1,7 @@
 "use strict";
 
+var auth = require('./auth.js');
+
 var User = function() {}
 
 // returns the user ID for the passed google ID token or an empty string if the user does not exist
@@ -13,7 +15,7 @@ User.getUserIDFromGoogleUserID = function(googleUserID)
 User.getStoredPassword = function(userID)
   {
     // TODO: Query the database for the password for this user
-    return 'password123';
+    return auth.hashPassword('password123');
   };
 
 //returns true if there is a user with this username
