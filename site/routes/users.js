@@ -1,7 +1,7 @@
 "use strict";
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 /* Add a new user */
 router.put('/', function(req, res, next) {
