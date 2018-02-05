@@ -10,9 +10,9 @@ cache:
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_71e887220f4c_key -iv $encrypted_71e887220f4c_iv
     -in client-secret.json.enc -out client-secret.json -d
-  - echo $TRAVIS_ENV_FILE > ./site/.env
   - echo '!.env' >> .gitignore
 deploy:
+  skip_cleanup: true
   provider: gae
   keyfile: client-secret.json
   project: tipperu-1517012271502
