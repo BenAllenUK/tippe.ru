@@ -10,7 +10,7 @@ const dbPromise = Promise.resolve()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express2', items: posts });
+  res.render('index', { title: 'Express2', items: {} });
 });
 
 

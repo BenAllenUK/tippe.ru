@@ -21,8 +21,8 @@ const markup = message => `
 		</div>
 	</div>
  	<div class="col s8">
-    <span class="card-title">${message.userName}</span>
-    <p class="card-content">${message.message}</p>
+    <span class="card-title">${message.name}</span>
+    <p class="card-content">${message.content}</p>
 
 
 	</div>
