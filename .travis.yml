@@ -3,7 +3,7 @@ node_js:
 - '6'
 before_install:
 - npm install -g mocha
-- echo $(TRAVIS_ENV_FILE) > ./site/.env
+- echo $TRAVIS_ENV_FILE > ./site/.env
 cache:
   directories:
   - node_modules
