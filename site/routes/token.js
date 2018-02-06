@@ -31,38 +31,37 @@ function getAccessToken(req, res, next)
   // try and get a valid user from the request body
   if(typeof req_body.googleIdToken !== 'undefined')
   {
-    auth.validateGoogleIDToken(req_body.googleIdToken, function(valid, googleUserID)
-      {
-        if(!valid)
-        {
-          error.send(res, error.invalidToken);
-          return;
-        }
-
-        generateAccessTokenForUser(user.getUserIDFromGoogleUserID(googleUserID), req, res, next);
+    auth.validateGoogleIDToken(req_body.googleIdToken).then((valid, googleUserID) => {
+        user.getUserIDFromGoogleUserID(googleUserID).then((userID) => {
+          sendAccessTokenForUser(userID, req, res, next);
+        });
+      }).catch((err) => {
+        error.send(res, error.invalidToken);
       });
   }
   else if(typeof req_body.usernameEmail !== 'undefined' && typeof req_body.password !== 'undefined')
   {
     let userID = '';
-    if(user.usernameExists(req_body.usernameEmail))
+    let checkPromise = Promise.resolve();
+
+    if(req_body.usernameEmail.includes("@"))
     {
-      userID = req_body.usernameEmail;
+      checkPromise.then(user.getUserIDFromEmail(req_body.usernameEmail).then((foundUserID) => userID = foundUserID));
     }
     else
     {
-      userID = user.getUserIDFromEmail(req_body.usernameEmail);
+      userID = req_body.usernameEmail;
     }
 
-		let storedPassword = user.getStoredPassword(userID);
+    checkPromise.then(user.getStoredPassword(userID).then((password) => {
+      if(!auth.checkPassword(req_body.password, password.val, password.salt))
+      {
+        error.send(res, error.invalidCredentials);
+        return;
+      }
 
-    if(!auth.checkPassword(req_body.password, storedPassword))
-    {
-      error.send(res, error.invalidCredentials);
-      return;
-    }
-
-    generateAccessTokenForUser(userID, req, res, next);
+      sendAccessTokenForUser(userID, req, res, next);
+    }));
   }
   else
   {
@@ -79,7 +78,7 @@ function getAccessToken(req, res, next)
  * @param res
  * @param next
  */
-function generateAccessTokenForUser(userID, req, res, next)
+function sendAccessTokenForUser(userID, req, res, next)
 {
   // if it was a valid request but no user was found we return user not found
   if(userID == '')

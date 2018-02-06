@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+let db = require('sqlite');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const dbPromise = Promise.resolve()
+	.then(() => db.open('./database.db', { Promise }))
+	.then(db => db.migrate({ force: 'last' }));
 
 app.use('/', index);
 app.use('/api/user', users);

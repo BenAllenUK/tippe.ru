@@ -48,30 +48,32 @@ Auth.validateAccessTokenForUser = function(token, userID)
   };
 
 //calls the passed callback with the google User ID and a boolean that is true if the token was valid
-Auth.validateGoogleIDToken = function(googleIdToken, callback)
+Auth.validateGoogleIDToken = function(googleIdToken)
   {
-    var client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, '', '');
-    client.verifyIdToken({
-      idToken: googleIdToken,
-      audience: process.env.GOOGLE_CLIENT_ID
-    }, function(e, login) {
-      // callback when the verify function returns
-      if(e == null)
-      {
-        callback(true, login.getUserId());
-      }
-      else
-      {
-        callback(false, '');
-      }
+    return new Promise(function(resolve, reject) {
+      let client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, '', '');
+      client.verifyIdToken({
+        idToken: googleIdToken,
+        audience: process.env.GOOGLE_CLIENT_ID
+      }, function(e, login) {
+        // callback when the verify function returns
+        if(e == null)
+        {
+          resolve(login.getUserId());
+        }
+        else
+        {
+          reject('');
+        }
+      });
     });
   };
 
 // returns true if the query password matches the one on file
-Auth.checkPassword = function(queryPassword, storedPassword)
+Auth.checkPassword = function(queryPassword, password, salt)
   {
     if(!Auth.validatePassword(queryPassword)) return false;
-    return Auth.hashPassword(queryPassword) == storedPassword;
+    return Auth.hashPassword(queryPassword, salt) == password;
   };
 
 // returns true if the input password follows the password rules set out
@@ -81,9 +83,12 @@ Auth.validatePassword = function(password)
   };
 
 // returns the hash for the input password
-Auth.hashPassword = function(password)
+Auth.hashPassword = function(password, salt)
   {
-    return crypto.createHash('sha256').update(password).digest('hex');
+    if(salt === undefined || salt.length < 2)
+      throw new Error("password salt was invalid or missing");
+
+    return crypto.createHash('sha256').update(salt + password).digest('hex');
   };
 
 module.exports = Auth;

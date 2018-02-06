@@ -10,6 +10,7 @@ before(function()
 // data
 var validPasswords = ["helloWorld", "123456789", "a1b2c3d4e5", "abcdefgh", "abcdefgh123456789"];
 var invalidPasswords = ["h", "", "123456"];
+var passwordSalts = ['yr820hodn', '2u90d2hd2', 'dh2d0h201', '19s1d9010'];
 
 describe('Auth', function()
 {
@@ -88,18 +89,20 @@ describe('Auth', function()
 
   describe('checkPassword should return true for matching passwords', function()
   {
+    let salt = '123abc';
     validPasswords.forEach(function(item) {
       it(item, function()  {
-        expect(Auth.checkPassword(item, Auth.hashPassword(item))).to.equal(true);
+        expect(Auth.checkPassword(item, Auth.hashPassword(item, salt), salt)).to.equal(true);
       });
     });
   });
 
   describe('checkPassword should return false for invalid passwords', function()
   {
+    let salt = '123abc';
     invalidPasswords.forEach(function(item) {
       it(item, function() {
-        expect(Auth.checkPassword(item, Auth.hashPassword(item))).to.equal(false);
+        expect(Auth.checkPassword(item, Auth.hashPassword(item, salt), salt)).to.equal(false);
       });
     });
   });
@@ -112,10 +115,12 @@ describe('Auth', function()
     {
       inputs.forEach(function(item1,index1) {
         inputs.forEach(function(item2,index2) {
-          if(index1 == index2) return;
+          passwordSalts.forEach(function(salt) {
+            if(index1 == index2) return;
 
-          it(item1 + " != " + item2, function() {
-            expect(Auth.hashPassword(item1)).not.to.equal(Auth.hashPassword(item2));
+            it(item1 + " != " + item2, function() {
+              expect(Auth.hashPassword(item1, salt)).not.to.equal(Auth.hashPassword(item2, salt));
+            });
           });
         });
       });
@@ -124,8 +129,10 @@ describe('Auth', function()
     describe('hashPassword should not return the same as the password itself', function()
     {
       inputs.forEach(function(item) {
-        it(item, function() {
-          expect(Auth.hashPassword(item)).not.to.equal(item);
+        passwordSalts.forEach(function(salt) {
+          it(item, function() {
+            expect(Auth.hashPassword(item, salt)).not.to.equal(item);
+          });
         });
       });
     });
@@ -134,7 +141,24 @@ describe('Auth', function()
     {
       inputs.forEach(function(item) {
         it(item, function() {
-          expect(Auth.hashPassword(item)).to.equal(Auth.hashPassword(item));
+          passwordSalts.forEach(function(salt) {
+            expect(Auth.hashPassword(item, salt)).to.equal(Auth.hashPassword(item, salt));
+          });
+        });
+      });
+    });
+
+    describe('hashPassword should return different values for differen salts', function()
+    {
+      passwordSalts.forEach(function(salt1, index1) {
+        passwordSalts.forEach(function(salt2, index2) {
+          if(index1 == index2) return;
+
+          it(salt1 + " != " + salt2, function() {
+            inputs.forEach(function(item) {
+              expect(Auth.hashPassword(item, salt1)).to.not.equal(Auth.hashPassword(item, salt2));
+            });
+          });
         });
       });
     });

@@ -4,7 +4,11 @@
 
 CREATE TABLE User (
   id   INTEGER PRIMARY KEY,
-  name TEXT    NOT NULL
+  name TEXT    NOT NULL,
+  email TEXT NOT NULL,
+  googleUID TEXT,
+  password TEXT,
+  salt TEXT
 );
 
 CREATE TABLE Post (
@@ -21,8 +25,8 @@ CREATE TABLE Post (
 
 CREATE INDEX Post_ix_userId ON Post (userId);
 
-INSERT INTO User (id, name) VALUES (1, 'Ben Allen');
-INSERT INTO User (id, name) VALUES (2, 'Nick Pearson');
+INSERT INTO User (id, name, email) VALUES (1, 'Ben Allen', 'ben@example.com');
+INSERT INTO User (id, name, email) VALUES (2, 'Nick Pearson', 'nick@example.com');
 
 INSERT INTO Post (id, userId, longitude, latitude, content, upVotes, downVotes) VALUES (1, 1, 0, 0, 'Hello world from Ben', 0, 0);
 INSERT INTO Post (id, userId, longitude, latitude, content, upVotes, downVotes) VALUES (2, 2, 0, 0, 'Hello world from Nick', 0, 0);

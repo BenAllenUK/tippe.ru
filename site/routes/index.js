@@ -5,8 +5,7 @@ var router = express.Router();
 let db = require('sqlite');
 
 const dbPromise = Promise.resolve()
-	.then(() => db.open('./database.db', { Promise }))
-	.then(db => db.migrate({ force: 'last' }));
+	.then(() => db.open('./database.db', { Promise }));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
