@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./site/www",
-    "test": "mocha site/test --reporter dot"
+    "test": "mocha site/test --reporter dot && node ./node_modules/eslint/bin/eslint.js site/**/*.js site/www;"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
@@ -22,6 +22,7 @@
     "sqlite3": "^3.1.13"
   },
   "devDependencies": {
-    "chai": "^4.1.2"
+    "chai": "^4.1.2",
+    "eslint": "^4.17.0"
   }
 }

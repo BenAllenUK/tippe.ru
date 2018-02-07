@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 var crypto = require('crypto');
 
-var Utils = function() {}
+var Utils = function() {};
 
 Utils.generateRandomString = function(length)
 	{

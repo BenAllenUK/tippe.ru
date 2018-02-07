@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 var jwt = require('jsonwebtoken');
 var { OAuth2Client } = require('google-auth-library');
 
 var crypto = require('crypto');
 
-var Auth = function() {}
+var Auth = function() {};
 
 // generates a token to send back to the user
 Auth.generateAccessToken = function(userID, expires)
@@ -86,7 +86,7 @@ Auth.validatePassword = function(password)
 Auth.hashPassword = function(password, salt)
   {
     if(salt === undefined || salt.length < 2)
-      throw new Error("password salt was invalid or missing");
+      throw new Error('password salt was invalid or missing');
 
     return crypto.createHash('sha256').update(salt + password).digest('hex');
   };

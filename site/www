@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-"use strict";
+'use strict';
 
 var app = require('./app');
 var debug = require('debug')('test:server');

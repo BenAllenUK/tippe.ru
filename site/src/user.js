@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var auth = require('./auth.js');
 var utils = require('./utils.js');
@@ -7,17 +7,17 @@ let db = require('sqlite');
 const dbPromise = Promise.resolve()
 	.then(() => db.open('./database.db', { Promise }));
 
-var User = function() {}
+var User = function() {};
 
 // returns the user ID for the passed google ID token or an empty string if the user does not exist
 User.getUserIDFromGoogleUserID = function(googleUserID)
   {
     return new Promise(function(resolve, reject) {
       dbPromise.then((db) => {
-    		db.get(`SELECT User.id FROM User WHERE User.googleUserID='${googleUserID}' LIMIT 1`).then(row => {
-			    resolve(row.id);
-    		}).catch((err) => {
-					resolve(-1);
+        db.get(`SELECT User.id FROM User WHERE User.googleUserID='${googleUserID}' LIMIT 1`).then(row => {
+          resolve(row.id);
+        }).catch((err) => {
+          resolve(-1);
 				});
       });
     });
@@ -29,7 +29,7 @@ User.getStoredPassword = function(userID)
 		console.log(userID);
     return new Promise(function(resolve, reject) {
 			db.get(`SELECT User.id, User.password, User.salt FROM User WHERE User.id=${userID} LIMIT 1`).then(row => {
-    		resolve({val: row.password, salt: row.salt});
+        resolve({val: row.password, salt: row.salt});
 			}).catch(err => {
 				console.log(err);
 				resolve({val: '', salt: ''});
@@ -65,12 +65,12 @@ User.addUser = function(email, username, password, googleUserID)
 					!User.validateUsername(username)
 					|| (password != '' && !auth.validatePassword(password)))
 			{
-				reject(new Error("Invalid parameters"));
+				reject(new Error('Invalid parameters'));
 			}
 
 			return User.getUserIDFromUsernameEmail(username).then((id) => {
 				if(id != -1)
-					reject(new Error("Username exists"));
+					reject(new Error('Username exists'));
 			});
 		}).then(() => {
 			let salt = '';
@@ -83,18 +83,11 @@ User.addUser = function(email, username, password, googleUserID)
 			}
 
 			return new Promise(function(resolve, reject) {
-				db.run(`INSERT INTO User (name, email, googleUID, password, salt) VALUES (?, ?, ?, ?, ?);`, username, email, googleUserID, hashedPassword, salt, function(err) {
-					if(err)
-					{
-						reject(err);
-						return;
-					}
-
-					if(row != null)
-					{
-						resolve(this.lastID);
-					}
-				});
+				db.run('INSERT INTO User (name, email, googleUID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then(() => {
+					resolve(this.lastID);
+				}).catch((err) => {
+          reject(err);
+        });
 			});
 		});
   };

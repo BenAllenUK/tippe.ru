@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var express = require('express');
 var router = express.Router();
@@ -45,7 +45,7 @@ router.get('/api/posts', function(req, res, next) {
 router.get('/javascripts/keys.js', function(req, res, next) {
     res.setHeader('Content-Type', 'text/javascript');
 
-    var script = "var GOOGLE_CLIENT_ID = \"" + process.env.GOOGLE_CLIENT_ID + "\";";
+    var script = 'var GOOGLE_CLIENT_ID = "' + process.env.GOOGLE_CLIENT_ID + '";';
 
     res.send(script);
 });

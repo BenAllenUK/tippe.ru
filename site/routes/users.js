@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
 let express = require('express');
 let router = express.Router();
 
 let user = require('../src/user.js');
+let error = require('../src/error.js');
 
 /* Add a new user */
 router.put('/', function(req, res, next) {
@@ -21,8 +22,8 @@ router.put('/', function(req, res, next) {
   let password = (typeof req_body.password === 'undefined') ? '' : req_body.password;
   let googleUserID = (typeof req_body.googleUserID === 'undefined') ? '' : req_body.googleUserID;
 
-  user.addUser(email, username, password).then(userID => {
-    res.send(JSON.stringify({userID: userID, username: username, email: email}));
+  user.addUser(req_body.email, req_body.username, password, googleUserID).then(userID => {
+    res.send(JSON.stringify({userID: userID, username: req_body.username, email: req_body.email}));
   });
 });
 

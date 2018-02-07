@@ -1,4 +1,11 @@
-Initialise();
+window.onload = function() {
+	if(IsLoggedIn())
+	{
+		redirectToApp();
+	}
+
+  Initialise();
+};
 
 function Initialise()
 {

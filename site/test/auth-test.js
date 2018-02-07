@@ -8,8 +8,8 @@ before(function()
 });
 
 // data
-var validPasswords = ["helloWorld", "123456789", "a1b2c3d4e5", "abcdefgh", "abcdefgh123456789"];
-var invalidPasswords = ["h", "", "123456"];
+var validPasswords = ['helloWorld', '123456789', 'a1b2c3d4e5', 'abcdefgh', 'abcdefgh123456789'];
+var invalidPasswords = ['h', '', '123456'];
 var passwordSalts = ['yr820hodn', '2u90d2hd2', 'dh2d0h201', '19s1d9010'];
 
 describe('Auth', function()
@@ -118,7 +118,7 @@ describe('Auth', function()
           passwordSalts.forEach(function(salt) {
             if(index1 == index2) return;
 
-            it(item1 + " != " + item2, function() {
+            it(item1 + ' != ' + item2, function() {
               expect(Auth.hashPassword(item1, salt)).not.to.equal(Auth.hashPassword(item2, salt));
             });
           });
@@ -154,7 +154,7 @@ describe('Auth', function()
         passwordSalts.forEach(function(salt2, index2) {
           if(index1 == index2) return;
 
-          it(salt1 + " != " + salt2, function() {
+          it(salt1 + ' != ' + salt2, function() {
             inputs.forEach(function(item) {
               expect(Auth.hashPassword(item, salt1)).to.not.equal(Auth.hashPassword(item, salt2));
             });
