@@ -41,27 +41,21 @@ function getAccessToken(req, res, next)
   }
   else if(typeof req_body.usernameEmail !== 'undefined' && typeof req_body.password !== 'undefined')
   {
-    let userID = '';
-    let checkPromise = Promise.resolve();
+    let userID = -1;
 
-    if(req_body.usernameEmail.includes("@"))
-    {
-      checkPromise.then(user.getUserIDFromEmail(req_body.usernameEmail).then((foundUserID) => userID = foundUserID));
-    }
-    else
-    {
-      userID = req_body.usernameEmail;
-    }
+    user.getUserIDFromUsernameEmail(req_body.usernameEmail).then((foundUserID) => {
+      userID = foundUserID;
+    }).then(() => {
+      user.getStoredPassword(userID).then((password) => {
+        if(password.val == '' || !auth.checkPassword(req_body.password, password.val, password.salt))
+        {
+          error.send(res, error.invalidCredentials);
+          return;
+        }
 
-    checkPromise.then(user.getStoredPassword(userID).then((password) => {
-      if(!auth.checkPassword(req_body.password, password.val, password.salt))
-      {
-        error.send(res, error.invalidCredentials);
-        return;
-      }
-
-      sendAccessTokenForUser(userID, req, res, next);
-    }));
+        sendAccessTokenForUser(userID, req, res, next);
+      });
+    });
   }
   else
   {
@@ -81,7 +75,7 @@ function getAccessToken(req, res, next)
 function sendAccessTokenForUser(userID, req, res, next)
 {
   // if it was a valid request but no user was found we return user not found
-  if(userID == '')
+  if(userID == -1)
   {
     error.send(res, error.userNotFound);
     return;

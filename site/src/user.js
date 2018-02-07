@@ -1,6 +1,7 @@
 "use strict";
 
 var auth = require('./auth.js');
+var utils = require('./utils.js');
 let db = require('sqlite');
 
 const dbPromise = Promise.resolve()
@@ -13,23 +14,11 @@ User.getUserIDFromGoogleUserID = function(googleUserID)
   {
     return new Promise(function(resolve, reject) {
       dbPromise.then((db) => {
-    		db.get(`SELECT * FROM User WHERE User.googleUID='${googleUserID}' LIMIT 1`).then((err,row) => {
-          if(err)
-          {
-            reject(err);
-          }
-          else
-          {
-            if(row != null)
-            {
-      			   resolve(row.id);
-            }
-            else
-            {
-              resolve('');
-            }
-          }
-    		});
+    		db.get(`SELECT User.id FROM User WHERE User.googleUserID='${googleUserID}' LIMIT 1`).then(row => {
+			    resolve(row.id);
+    		}).catch((err) => {
+					resolve(-1);
+				});
       });
     });
   };
@@ -37,31 +26,77 @@ User.getUserIDFromGoogleUserID = function(googleUserID)
 // returns the password hash stored in the database for this user
 User.getStoredPassword = function(userID)
   {
-    // TODO: Query the database for the password for this user
+		console.log(userID);
     return new Promise(function(resolve, reject) {
-      //resolve(auth.hashPassword('password123', 'somesalt'), 'somesalt');
-      resolve({val: auth.hashPassword('password123', 'somesalt'), salt: 'somesalt'});
+			db.get(`SELECT User.id, User.password, User.salt FROM User WHERE User.id=${userID} LIMIT 1`).then(row => {
+    		resolve({val: row.password, salt: row.salt});
+			}).catch(err => {
+				console.log(err);
+				resolve({val: '', salt: ''});
+			});
     });
   };
 
-//returns true if there is a user with this username
-User.usernameExists = function(userID)
-  {
-    // TODO: Query the database
-    return userID === 'test';
-  };
-
 //returns a userID when passed a user's email or returns an empty string if that email is not in use
-User.getUserIDFromEmail = function(email)
+User.getUserIDFromUsernameEmail = function(usernameEmail)
   {
-    // TODO: Query the database
-    return Promise.resolve('test');
+		return new Promise(function(resolve, reject) {
+			db.get(`SELECT User.id FROM User WHERE User.email='${usernameEmail}' OR User.name='${usernameEmail}' LIMIT 1`).then(row => {
+				resolve(row.id);
+			}).catch(err => {
+				resolve(-1);
+			});
+		});
   };
 
-// adds a user to the database and returns the generated user ID
-User.addUser = function(email, username, password)
+
+/**
+ * Adds a user to the database and returns the generated user ID
+ * @param email
+ * @param username
+ * @param password (optional if googleUserID passed)
+ * @param googleUserID (optional if password passed)
+ */
+User.addUser = function(email, username, password, googleUserID)
   {
-    return Promise.resolve('');
+		return new Promise(function(resolve, reject) {
+			if((password == '' && googleUserID == '') ||
+					!utils.validateEmail(email) ||
+					!User.validateUsername(username)
+					|| (password != '' && !auth.validatePassword(password)))
+			{
+				reject(new Error("Invalid parameters"));
+			}
+
+			return User.getUserIDFromUsernameEmail(username).then((id) => {
+				if(id != -1)
+					reject(new Error("Username exists"));
+			});
+		}).then(() => {
+			let salt = '';
+			let hashedPassword = '';
+
+			if(password != '')
+			{
+				salt = utils.generateRandomString(8);
+				hashedPassword = auth.hashPassword(password, salt);
+			}
+
+			return new Promise(function(resolve, reject) {
+				db.run(`INSERT INTO User (name, email, googleUID, password, salt) VALUES (?, ?, ?, ?, ?);`, username, email, googleUserID, hashedPassword, salt, function(err) {
+					if(err)
+					{
+						reject(err);
+						return;
+					}
+
+					if(row != null)
+					{
+						resolve(this.lastID);
+					}
+				});
+			});
+		});
   };
 
 module.exports = User;
