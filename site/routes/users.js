@@ -3,11 +3,16 @@
 let express = require('express');
 let router = express.Router();
 
-let user = require('../src/user.js');
-let error = require('../src/error.js');
+let user = require('../models/user.js');
+let error = require('../helpers/error.js');
 
-/* Add a new user */
-router.put('/', function(req, res, next) {
+/**
+ * Add a new user
+ *  Endpoint: /api/user/create
+ *
+ *
+ */
+router.put('/create', function(req, res, next) {
   //we must have been passed the minimum number of params to process the request
   let req_body = req.body;
 
@@ -23,17 +28,25 @@ router.put('/', function(req, res, next) {
   let googleUserID = (typeof req_body.googleUserID === 'undefined') ? '' : req_body.googleUserID;
 
   user.addUser(req_body.email, req_body.username, password, googleUserID).then(userID => {
-    res.send(JSON.stringify({userID: userID, username: req_body.username, email: req_body.email}));
+    res.send({userID: userID, username: req_body.username, email: req_body.email});
   });
 });
 
-/* Get user details */
+/**
+ * Get a users details
+ *  Endpoint: /api/user/:uid
+ *
+ */
 router.get('/:uid', function(req, res, next) {
   let userID = req.params.uid;
   error.send(res, error.invalidRequest);
 });
 
-/* Update user detials */
+/**
+ * Update a users details
+ *  Endpoint: /api/user/:uid
+ *
+ */
 router.post('/:uid', function(req, res, next) {
   let userID = req.params.uid;
   error.send(res, error.invalidRequest);

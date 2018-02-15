@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var Auth = require('./../src/auth');
+var Auth = require('./../helpers/auth');
 
 before(function()
 {

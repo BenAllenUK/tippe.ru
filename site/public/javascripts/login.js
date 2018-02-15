@@ -1,23 +1,24 @@
-window.onload = function() {
-	if(IsLoggedIn())
-	{
-		redirectToApp();
-	}
-
-  Initialise();
-};
-
-function Initialise()
+function onManualRegister()
 {
-  let loginButton = document.getElementById("login-submit");
-  let registerButton = document.getElementById("register-submit");
-  let register2Button = document.getElementById("register2-submit");
-
-  loginButton.addEventListener("click", onManualSignIn);
-  registerButton.addEventListener("click", onManualRegister);
-  register2Button.addEventListener("click", onFinialiseRegister);
+	document.getElementById("register-submit").innerHTML = "Creating account...";
 }
 
+function onFinialiseRegister()
+{
+	ajaxRequest("PUT", "/api/user", {email: "", username: "", password: ""}, function(status, responseObj) {
+		if (status == 200) {
+		  window.location.href = "/";
+    }
+	});
+}
+
+function showRegisterPage()
+{
+	$(".loginPage").hide();
+	$(".registerPage").show();
+}
+
+/** Private functions **/
 
 // this function is called when the google script has finished loading in the background
 function onGooglePlatformLoaded()
@@ -47,7 +48,9 @@ function onGoogleFullyInitialised()
       height: 75,
       longtitle: true,
       theme: 'light',
-      onsuccess: onGoogleSignIn
+      onsuccess: function (s) {
+				onGoogleSignIn(s);
+			}
     });
 }
 
@@ -58,72 +61,38 @@ function onGoogleSignIn(googleUser)
   // 2b. if the token is valid redirect to the main app page
   // 3. once the user has completed the new user setup page
 
-  APIRequest("POST", "/api/token", JSON.stringify({googleIdToken: googleUser.getAuthResponse().id_token}), function(status, responseObj) {
-      onGoogleAccessTokenReponse(status, responseObj);
+  ajaxRequest("POST", "/api/authenticate", { googleIdToken: googleUser.getAuthResponse().id_token }, function(status, responseObj) {
+      if (status == 200) {
+        window.location.href = "/";
+      } else if (status == 404) {
+      	console.log("Email not registered")
+
+			}
+      else {
+				onSignInError("Google error");
+      }
   });
-}
-
-function onGoogleAccessTokenReponse(status, responseObj)
-{
-  if(status == 200)
-  {
-    redirectToApp();
-    return;
-  }
-
-  if(responseObj.title == "UserNotFound")
-  {
-    // TODO: Re-enable this when the register page is working properly
-    //showRegisterPage();
-  }
 }
 
 function onManualSignIn()
 {
-  document.getElementById("login-submit").innerHTML = "Logging in...";
+  // Create an AJAX request
+  let payload = {
+    usernameEmail: document.getElementById("usernameemail").value,
+    password: document.getElementById("password-login").value
+  };
 
+  ajaxRequest("POST", "/api/authenticate", payload, function(status, responseObj) {
+    if(status == 200) {
+			window.location.href = "/";
+    } else {
+      onSignInError(responseObj.message);
+    }
 
-  // create an AJAX request
-  APIRequest("POST", "/api/token", JSON.stringify({usernameEmail: document.getElementById("usernameemail").value, password: document.getElementById("password-login").value}), function(status, responseObj) {
-      onManualAccessTokenResponse(status, responseObj);
   });
 }
 
-function onManualAccessTokenResponse(status, responseObj)
-{
-  if(status == 200)
-  {
-    redirectToApp();
-    return;
-  }
-
-  document.getElementById("login-submit").innerHTML = "Login";
-  document.getElementById("login-error").innerHTML = "An error occurred when logging in : " + responseObj.message;
-}
-
-function onManualRegister()
-{
-  document.getElementById("register-submit").innerHTML = "Creating account...";
-}
-
-function onFinialiseRegister()
-{
-  APIRequest("PUT", "/api/user", JSON.stringify({email: "", username: "", password: ""}), function(status, responseObj) {
-      onFinialiseRegisterResponse(status, responseObj);
-  });
-}
-
-function onFinialiseRegisterResponse(status, responseObj)
-{
-  if(status == 200)
-  {
-    redirectToApp();
-    return;
-  }
-}
-
-function showRegisterPage()
-{
-  $(".loginPage").hide();
-  $(".registerPage").show();
+function onSignInError(message) {
+	document.getElementById("login-submit").innerHTML = "Login";
+	document.getElementById("login-error").innerHTML = "An error occurred when logging in : " + message;
 }

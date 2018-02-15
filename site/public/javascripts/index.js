@@ -1,13 +1,4 @@
-
-
 window.onload = function() {
-	if(!IsLoggedIn())
-	{
-		redirectToLogin();
-	}
-
-	console.log("Logged in as : " + GetLoggedInUserID());
-
 	setTimeout(onRefresh, 1000);
 };
 
@@ -54,7 +45,7 @@ function onRefresh() {
 function onViewItem(itemId) {
 	startAnimatingPageMove();
 
-	$.ajax({ url:'/api/posts/' + itemId, type:'GET' }).done(function(response) {
+	$.ajax({ url: '/api/posts/' + itemId, type:'GET' }).done(function(response) {
 		// let postContainer = $('#posts');
 		// postContainer.html("");
 		//

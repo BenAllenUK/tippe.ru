@@ -3,50 +3,50 @@ extends layout
 block content
 
   .loginPage
-    div(class="row")
+    .row
     
      form(class="col s12 l6" id="frm-login" onsubmit="return false;")
       h1 Login
-      div(class="row")
-       div(class="input-field col s12")
+      .row
+       .input-field.col.s12
          input(id="usernameemail" type="text")
          label(for="usernameemail") Username / Email
-      div(class="row")
-       div(class="input-field col s12")
+      .row
+       .input-field.col.s12
          input(id="password-login" type="password")
          label(for="password-login") Password
-      div(class="row")
+      .row
        i(id="login-error" class="col s12 error-text")
-      div(class="row")
-       button(id="login-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Login
+      .row
+       button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick="onManualSignIn()") Login
      
      form(class="col s12 l6" id="frm-register" onsubmit="return false;")
       h1 Create Account
-      div(class="row")
-       div(class="input-field col s12")
+      .row
+       .input-field.col.s12
          input(id="email" type="email" class="validate")
          label(for="email" data-error="Invalid Email") Email
-      div(class="row")
-       div(class="input-field col s12")
+      .row
+       .input-field.col.s12
          input(id="password-register" type="password")
          label(for="password") Password
          i Passwords must be at least 8 characters long
-      div(class="row")
+      .row
        i(id="register-error" class="col s12 error-text")
-      div(class="row")
-       button(id="register-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
-    div(id='google-signin-button')
+      .row
+       button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick='onManualRegister()') Create Account
+    #google-signin-button
   
   .registerPage
     .row
       form(class="col s12" id="frm-register2" onsubmit="return false;")
         h1 Finish creating your account
-        div(class="row")
-          div(class="input-field col s12")
+        .row
+          .input-field.col.s12
             input(id="username" type="text")
             label(for="username") Username
-        div(class="row")
-         button(id="register2-submit" class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
+        .row
+         button(onClick='onFinialiseRegister()' class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
   
   script(src="/javascripts/keys.js")
   script(src="/javascripts/login.js")

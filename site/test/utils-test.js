@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var Utils = require('./../src/utils');
+var Utils = require('./../helpers/utils');
 
 describe('Utils', function()
 {

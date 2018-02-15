@@ -1,7 +1,7 @@
 'use strict';
 
-var auth = require('./auth.js');
-var utils = require('./utils.js');
+var auth = require('./../helpers/auth.js');
+var utils = require('./../helpers/utils.js');
 let db = require('sqlite');
 
 const dbPromise = Promise.resolve()
@@ -17,7 +17,7 @@ User.getUserIDFromGoogleUserID = function(googleUserID)
         db.get(`SELECT User.id FROM User WHERE User.googleUserID='${googleUserID}' LIMIT 1`).then(row => {
           resolve(row.id);
         }).catch((err) => {
-          resolve(-1);
+          reject(err);
 				});
       });
     });
@@ -59,37 +59,51 @@ User.getUserIDFromUsernameEmail = function(usernameEmail)
  */
 User.addUser = function(email, username, password, googleUserID)
   {
-		return new Promise(function(resolve, reject) {
-			if((password == '' && googleUserID == '') ||
-					!utils.validateEmail(email) ||
-					!User.validateUsername(username)
-					|| (password != '' && !auth.validatePassword(password)))
-			{
-				reject(new Error('Invalid parameters'));
-			}
-
-			return User.getUserIDFromUsernameEmail(username).then((id) => {
-				if(id != -1)
-					reject(new Error('Username exists'));
-			});
-		}).then(() => {
+		return User.validateInfo(email, username).then(() => {
 			let salt = '';
 			let hashedPassword = '';
 
-			if(password != '')
+			if(password != null)
 			{
 				salt = utils.generateRandomString(8);
 				hashedPassword = auth.hashPassword(password, salt);
 			}
 
 			return new Promise(function(resolve, reject) {
-				db.run('INSERT INTO User (name, email, googleUID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then(() => {
-					resolve(this.lastID);
+				db.run('INSERT INTO User (name, email, googleUserID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then(() => {
+					console.log("Added");
+					resolve();
 				}).catch((err) => {
           reject(err);
         });
 			});
 		});
   };
+
+User.validateInfo = function(email, username) {
+	if (!utils.isValidEmail(email) || !utils.isValidUsername(username)) {
+		return Promise.reject()
+	}
+
+	return new Promise(function(resolve, reject) {
+		db.get(`SELECT User.id FROM User WHERE User.email='${email}' LIMIT 1`).then(row => {
+			if (row) {
+				reject()
+			} else {
+				resolve()
+			}
+		})
+	}).then(function() {
+		return new Promise(function(resolve, reject) {
+			db.get(`SELECT User.id FROM User WHERE User.name='${username}' LIMIT 1`).then(row => {
+				if (row) {
+					reject()
+				} else {
+					resolve()
+				}
+			})
+		});
+	});
+};
 
 module.exports = User;
