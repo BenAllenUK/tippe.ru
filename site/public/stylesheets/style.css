@@ -1,4 +1,4 @@
-body, html { padding: 0; margin: 0; }
+body, html { padding: 0; margin: 0; height: 100%; }
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -11,11 +11,60 @@ a {
 
 /* Pages */
 
+.introPage {
+  width: 100%;
+  height: 100%;
+}
+
+.introPageCenter {
+  margin: 0 auto;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%);
+  width: 150px;
+}
+
+.introPageCenterLogo {
+  background: url("/images/logo.png") no-repeat center;
+  background-size: 100%;
+  height: 45px;
+}
+
+.introPageCenterSlogan {
+  height: 20px;
+  text-align: center;
+  color: #fff;
+  font: "Roboto", sans-serif;
+}
+
+.introBackground {
+  background-image: radial-gradient(49% 104%, #26D64E 3%, #085900 100%);
+}
+
 nav {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 2;
+  background-image: linear-gradient(-181deg, #26D54D 3%, #26D34C 100%);
+}
+
+.navWrapper {
+  position: relative;
+}
+
+.navWrapperLogo {
+  margin: 0 auto;
+  margin-top: 7px;
+  width: 130px;
+}
+
+.navWrapperBackButton {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width:30px;
+  height:30px;
 }
 
 .container {
@@ -24,19 +73,29 @@ nav {
   margin: 100px auto;
 }
 
-.mainPage {
-  transform: translateX(0);
+.posts {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 10px;
 }
 
-.postPage {
-  visibility: hidden;
-  transform: translateX(100%);
+.posts .row {
+  display: flex;
+  align-items: center;
+}
+
+.posts .col {
+  padding: 5px;
 }
 
 
 .posts-empty {
   text-align: center;
   padding: 50px;
+}
+
+.itemView {
+  margin-top: 100px;
 }
 
 .posts-refresh {
@@ -68,22 +127,28 @@ nav {
 }
 
 .card-votes {
-  position: relative;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  color: #bbb;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-votes a {
+  color: #bbb;
 }
 
 .card-upvotes, .card-downvotes {
-  position: absolute;
-  height: 50px;
-  width: 100%;
-  left: 0;
+
 }
 
 .card-upvotes {
-  top: 0;
+
 }
 
 .card-downvotes {
-  top: 50px;
+
 }
 
 /** Login */
@@ -106,6 +171,10 @@ nav {
 
 .card .card-content {
   padding: 0px;
+  font-size: 12px;
+  font-weight: 100;
+  margin: 0;
+  margin-top: 5px;
 }
 
 

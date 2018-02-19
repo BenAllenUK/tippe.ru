@@ -1,4 +1,7 @@
 // Functions included on every page
+window.addEventListener('load', function() {
+	animateLoadingText(0);
+});
 
 // API
 function ajaxRequest(method, endpoint, content, callback)
@@ -31,4 +34,20 @@ function ajaxRequest(method, endpoint, content, callback)
   };
 
   xhr.send(JSON.stringify(content));
+}
+
+
+/** ANIMATION **/
+
+function animateLoadingText(num) {
+	let items = ["gossip", "secrets", "rumours", "stories"];
+	let centerPageSlogan = $('.introPageCenterSlogan');
+	centerPageSlogan.fadeOut(300, () => {
+		centerPageSlogan.text("loading " + items[num] + "...");
+		centerPageSlogan.fadeIn(300);
+	});
+
+	if (num < 4 ) {
+		setTimeout(() => {animateLoadingText(num + 1)}, 1000)
+	}
 }

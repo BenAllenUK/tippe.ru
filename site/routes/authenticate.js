@@ -99,6 +99,6 @@ function sendAccessTokenForUser(userID, req, res, next)
 	res.cookie('userId', userID, { expires: new Date(token.expires * 1000)});
   res.cookie('accessToken', token.token, { expires: new Date(token.expires * 1000)});
 
-  res.send(JSON.stringify(token));
+  res.send(token);
 }
 module.exports = router;

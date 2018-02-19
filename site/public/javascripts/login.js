@@ -1,3 +1,7 @@
+window.addEventListener('load', function() {
+	setTimeout(onLoadLogin, 3000);
+});
+
 function onManualRegister()
 {
 	document.getElementById("register-submit").innerHTML = "Creating account...";
@@ -95,4 +99,9 @@ function onManualSignIn()
 function onSignInError(message) {
 	document.getElementById("login-submit").innerHTML = "Login";
 	document.getElementById("login-error").innerHTML = "An error occurred when logging in : " + message;
+}
+
+function onLoadLogin() {
+	$("#loginPage").css({"display": "block"}).animate({"opacity" : 1});
+	$("#introPage").animate({"opacity" : 0}).css({"display": "none"});
 }
