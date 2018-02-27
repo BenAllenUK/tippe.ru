@@ -71,7 +71,7 @@ User.addUser = function(email, username, password, googleUserID)
 
 			return new Promise(function(resolve, reject) {
 				db.run('INSERT INTO User (name, email, googleUserID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then(() => {
-					console.log("Added");
+					console.log('Added');
 					resolve();
 				}).catch((err) => {
           reject(err);
@@ -82,26 +82,26 @@ User.addUser = function(email, username, password, googleUserID)
 
 User.validateInfo = function(email, username) {
 	if (!utils.isValidEmail(email) || !utils.isValidUsername(username)) {
-		return Promise.reject()
+		return Promise.reject();
 	}
 
 	return new Promise(function(resolve, reject) {
 		db.get(`SELECT User.id FROM User WHERE User.email='${email}' LIMIT 1`).then(row => {
 			if (row) {
-				reject()
+				reject();
 			} else {
-				resolve()
+				resolve();
 			}
-		})
+		});
 	}).then(function() {
 		return new Promise(function(resolve, reject) {
 			db.get(`SELECT User.id FROM User WHERE User.name='${username}' LIMIT 1`).then(row => {
 				if (row) {
-					reject()
+					reject();
 				} else {
-					resolve()
+					resolve();
 				}
-			})
+			});
 		});
 	});
 };

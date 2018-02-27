@@ -12,7 +12,7 @@ let Utils =  {
 		return re.test(String(email).toLowerCase());
 	},
 	isValidUsername: function(username) {
-		return true
+		return true;
 	}
 };
 

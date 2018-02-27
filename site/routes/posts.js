@@ -16,7 +16,7 @@ router.get('/:id', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
 	post.getPost(req.params.id, function (data) {
 		res.send(data);
-	})
+	});
 });
 
 
@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 
 	post.getPosts(function (data) {
 		res.send(data);
-	})
+	});
 
 });
 

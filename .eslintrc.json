@@ -29,6 +29,9 @@
         ],
         "no-mixed-spaces-and-tabs":[
           "warn"
+        ],
+        "no-useless-escape": [
+          "warn"
         ]
     }
 }

@@ -1,13 +1,13 @@
 'use strict';
 
 let express = require('express');
-let Auth = require("../helpers/auth");
+let Auth = require('../helpers/auth');
 let router = express.Router();
 
 router.get('/', function(req, res, next) {
 	// Attempt to login automatically
 	if (req.session.loggedIn != 1 && req.cookies.accessToken && req.cookies.userId && req.cookies.accessToken.length > 0) {
-		console.log("Automatically logged in");
+		console.log('Automatically logged in');
 		let accessToken = req.cookies.accessToken;
 		let userId = req.cookies.userId;
 
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 
 	// Redirect if not logged in
 	if (req.session.loggedIn != 1) {
-		console.log("No Log in found");
+		console.log('No Log in found');
 		res.render('login', { title: 'Login' });
 		return;
 	}
