@@ -6,6 +6,9 @@
     "start": "node ./site/www",
     "test": "mocha site/test --reporter dot && node ./node_modules/eslint/bin/eslint.js site/**/*.js site/www;"
   },
+  "engines": {
+    "node": "8.x"
+  },
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",

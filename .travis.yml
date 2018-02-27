@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+- '8'
 before_install:
 - npm install -g mocha
 - echo $TRAVIS_ENV_FILE > ./site/.env
@@ -18,4 +18,4 @@ deploy:
   provider: gae
   keyfile: client-secret.json
   project: tipperu-1517012271502
-  on: master
+  on: release
