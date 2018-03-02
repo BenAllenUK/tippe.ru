@@ -1,10 +1,8 @@
 extends layout
 
 block content
-
   .loginPage
     .row
-    
      form(class="col s12 l6" id="frm-login" onsubmit="return false;")
       h1 Login
       .row
@@ -34,9 +32,8 @@ block content
       .row
        i(id="register-error" class="col s12 error-text")
       .row
-       button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick='onManualRegister()') Create Account
+       button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick='showRegisterPage()') Create Account
     #google-signin-button
-  
   .registerPage
     .row
       form(class="col s12" id="frm-register2" onsubmit="return false;")

@@ -4,11 +4,13 @@ let express = require('express');
 let router = express.Router();
 
 let user = require('../models/user.js');
+let auth = require('../helpers/auth.js');
 let error = require('../helpers/error.js');
+
 
 /**
  * Add a new user
- *  Endpoint: /api/user/create
+ *  Endpoint: /api/users/create
  *
  *
  */
@@ -28,13 +30,13 @@ router.put('/create', function(req, res, next) {
   let googleUserID = (typeof req_body.googleUserID === 'undefined') ? '' : req_body.googleUserID;
 
   user.addUser(req_body.email, req_body.username, password, googleUserID).then(userID => {
-    res.send({userID: userID, username: req_body.username, email: req_body.email});
+    auth.sendAccessTokenForUser(userID, req, res, next);
   });
 });
 
 /**
  * Get a users details
- *  Endpoint: /api/user/:uid
+ *  Endpoint: /api/users/:uid
  *
  */
 router.get('/:uid', function(req, res, next) {
@@ -44,7 +46,7 @@ router.get('/:uid', function(req, res, next) {
 
 /**
  * Update a users details
- *  Endpoint: /api/user/:uid
+ *  Endpoint: /api/users/:uid
  *
  */
 router.post('/:uid', function(req, res, next) {

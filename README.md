@@ -1,6 +1,6 @@
 # tippe.ru
 
-[![Build Status](https://travis-ci.org/BenAllenUK/tippe.ru.svg?branch=master)](https://travis-ci.org/BenAllenUK/tippe.ru)
+[![Build Status](https://travis-ci.org/BenAllenUK/tippe.ru.svg?branch=release)](https://travis-ci.org/BenAllenUK/tippe.ru)
 
 Tell us your secrets
 

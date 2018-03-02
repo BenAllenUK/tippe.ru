@@ -2,14 +2,21 @@ window.addEventListener('load', function() {
 	setTimeout(onLoadLogin, 3000);
 });
 
-function onManualRegister()
-{
-	document.getElementById("register-submit").innerHTML = "Creating account...";
-}
-
 function onFinialiseRegister()
 {
-	ajaxRequest("PUT", "/api/user", {email: "", username: "", password: ""}, function(status, responseObj) {
+  let payload = { username: document.getElementById("username").value }
+
+  var auth2 = gapi.auth2.getAuthInstance();
+  if (auth2.isSignedIn.get()) {
+    let profile = auth2.currentUser.get().getBasicProfile();
+    payload.email = profile.getEmail();
+    payload.googleUserID = profile.getId();
+  } else {
+    payload.email = document.getElementById("email").value;
+    payload.password = document.getElementById("password-register").value;
+  }
+
+	ajaxRequest("PUT", "/api/users/create", payload, function(status, responseObj) {
 		if (status == 200) {
 		  window.location.href = "/";
     }
@@ -69,8 +76,7 @@ function onGoogleSignIn(googleUser)
       if (status == 200) {
         window.location.href = "/";
       } else if (status == 404) {
-      	console.log("Email not registered")
-
+        showRegisterPage();
 			}
       else {
 				onSignInError("Google error");
@@ -102,6 +108,6 @@ function onSignInError(message) {
 }
 
 function onLoadLogin() {
-	$("#loginPage").css({"display": "block"}).animate({"opacity" : 1});
+	$("#mainPage").css({"display": "block"}).animate({"opacity" : 1});
 	$("#introPage").animate({"opacity" : 0}).css({"display": "none"});
 }

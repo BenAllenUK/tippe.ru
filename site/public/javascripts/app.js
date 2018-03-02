@@ -36,7 +36,6 @@ function ajaxRequest(method, endpoint, content, callback)
   xhr.send(JSON.stringify(content));
 }
 
-
 /** ANIMATION **/
 
 function animateLoadingText(num) {

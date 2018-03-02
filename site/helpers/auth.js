@@ -74,6 +74,34 @@ let Auth = {
       throw new Error('password salt was invalid or missing');
 
     return crypto.createHash('sha256').update(salt + password).digest('hex');
+  },
+
+  /**
+   * Generates a valid access token for the passed usedID - it is assumed that the userID has already been checked and does exist
+   * @param userID
+   * @param req
+   * @param res
+   * @param next
+   */
+  sendAccessTokenForUser: function(userID, req, res, next)
+  {
+    //by default tokens last 1 hour
+    let expiry = Math.round((new Date()).getTime() / 1000) + (60 * 60);
+
+    let token = {
+      token: this.generateAccessToken(userID, expiry),
+      expires: expiry
+    };
+
+    req.session.loggedIn = 1;
+    req.session.accessToken = token.token;
+
+    res.setHeader('Content-Type', 'application/json');
+
+  	res.cookie('userId', userID, { expires: new Date(token.expires * 1000)});
+    res.cookie('accessToken', token.token, { expires: new Date(token.expires * 1000)});
+
+    res.send(token);
   }
 };
 

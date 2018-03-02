@@ -11,6 +11,10 @@ a {
 
 /* Pages */
 
+.mainPage {
+  padding-top: 64px;
+}
+
 .introPage {
   width: 100%;
   height: 100%;

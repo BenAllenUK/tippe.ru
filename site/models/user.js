@@ -12,6 +12,7 @@ var User = function() {};
 // returns the user ID for the passed google ID token or an empty string if the user does not exist
 User.getUserIDFromGoogleUserID = function(googleUserID)
   {
+    if(googleUserID == '') return Promise.reject('Invalid ID');
     return new Promise(function(resolve, reject) {
       dbPromise.then((db) => {
         db.get(`SELECT User.id FROM User WHERE User.googleUserID='${googleUserID}' LIMIT 1`).then(row => {

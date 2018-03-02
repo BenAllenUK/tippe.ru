@@ -31,20 +31,12 @@ router.post('/', function(req, res, next) {
       let gId = payload.sub;
 
       user.getUserIDFromGoogleUserID(gId).then((userID) => {
-        sendAccessTokenForUser(userID, req, res, next);
+        console.log(gId + '=>' + userID);
+        auth.sendAccessTokenForUser(userID, req, res, next);
       }).catch(err => {
-
-        // TODO: Prompt user for username
-
-        // Add new user here
-        user.addUser(payload.email, payload.name, null, gId).catch(err => {
-					sendAccessTokenForUser(gId, req, res, next);
-        });
+        error.send(res, error.userNotFound);
       });
     }).catch((err) => {
-
-      // TODO: Show error message
-
       error.send(res, error.invalidToken);
     });
   }
@@ -62,7 +54,7 @@ router.post('/', function(req, res, next) {
           // return;
         }
 
-        sendAccessTokenForUser(userID, req, res, next);
+        auth.sendAccessTokenForUser(userID, req, res, next);
       });
     });
   }
@@ -73,32 +65,4 @@ router.post('/', function(req, res, next) {
   }
 });
 
-
-/**
- * Generates a valid access token for the passed usedID - it is assumed that the userID has already been checked and does exist
- * @param userID
- * @param req
- * @param res
- * @param next
- */
-function sendAccessTokenForUser(userID, req, res, next)
-{
-  //by default tokens last 1 hour
-  let expiry = Math.round((new Date()).getTime() / 1000) + (60 * 60);
-
-  let token = {
-    token: auth.generateAccessToken(userID, expiry),
-    expires: expiry
-  };
-
-  req.session.loggedIn = 1;
-  req.session.accessToken = token.token;
-
-  res.setHeader('Content-Type', 'application/json');
-
-	res.cookie('userId', userID, { expires: new Date(token.expires * 1000)});
-  res.cookie('accessToken', token.token, { expires: new Date(token.expires * 1000)});
-
-  res.send(token);
-}
 module.exports = router;
