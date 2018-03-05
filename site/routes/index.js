@@ -28,7 +28,15 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express2', items: {} });
 });
 
+// LOGOUT
+router.get('/logout', function(req, res, next) {
+  req.session.loggedIn = 0;
 
+  res.cookie('userId', '', { expires: new Date()});
+  res.cookie('accessToken', '', { expires: new Date()});
+
+  res.render('logout', { title: 'Signed Out' });
+})
 
 // MISC
 

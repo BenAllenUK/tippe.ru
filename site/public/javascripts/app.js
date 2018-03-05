@@ -48,5 +48,8 @@ function animateLoadingText(num) {
 
 	if (num < 4 ) {
 		setTimeout(() => {animateLoadingText(num + 1)}, 1000)
-	}
+	} else {
+  	$("#mainPage").css({"display": "block"}).animate({"opacity" : 1});
+  	$("#introPage").animate({"opacity" : 0}).css({"display": "none"});
+  }
 }

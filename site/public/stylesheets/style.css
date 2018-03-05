@@ -64,11 +64,36 @@ nav {
 }
 
 .navWrapperBackButton {
-  position: absolute;
   left: 10px;
-  top: 10px;
+}
+
+.navWrapperMenuButton {
+  right: 10px;
+
+  stroke:white;
+  stroke-width:4;
+  stroke-linecap:round;
+}
+
+.navWrapperButton {
+  position: absolute;
+  top: 3px;
   width:30px;
   height:30px;
+}
+
+/* Menu Bar */
+
+.menuBar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 64px 10px 0 10px;
+  background-image: linear-gradient(-181deg, #26D54D 3%, #26D34C 100%);
+  width: 256px;
+  z-index: 1;
+  box-shadow: -2px 0 8px #555;
 }
 
 .container {

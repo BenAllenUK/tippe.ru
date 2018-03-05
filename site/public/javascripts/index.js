@@ -51,8 +51,7 @@ const postMarkup = message => `
 /** Callbacks **/
 
 function onLoadIndex() {
-	$("#mainPage").css({"display": "block"}).animate({"opacity" : 1});
-	$("#introPage").animate({"opacity" : 0}).css({"display": "none"});
+	$("#menuButton").animate({"opacity" : 1}).css({"display": "block"});
 	onRefresh();
 }
 
