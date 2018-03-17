@@ -7,6 +7,20 @@ let post = require('../models/post.js');
 let error = require('../helpers/error.js');
 
 /**
+ * Create a post
+ * 	Endpoint: /api/posts/:id
+ *
+ *
+ */
+router.post('/create', function(req, res, next) {
+	let userId = req.session.userId;
+	res.setHeader('Content-Type', 'application/json');
+	post.createPost(userId, req.body.title, req.body.content, function (data) {
+		res.send(data);
+	});
+});
+
+/**
  * Get a post
  * 	Endpoint: /api/posts/:id
  *
@@ -14,8 +28,8 @@ let error = require('../helpers/error.js');
  */
 router.get('/:id', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
-	post.getPost(req.params.id, function (data) {
-		res.send(data);
+	post.getPost(req.params.id, function () {
+		res.send({});
 	});
 });
 
@@ -26,6 +40,7 @@ router.get('/:id', function(req, res, next) {
  */
 router.get('/', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
+
 
 	post.getPosts(function (data) {
 		res.send(data);

@@ -1,6 +1,8 @@
 extends layout
 
 block content
+
+
   #listView
     a(class="waves-effect waves-light btn-flat posts-refresh", onClick=('onRefresh()'))
       svg(fill='#000000', height='40', viewbox='0 0 24 24', width='40', xmlns='http://www.w3.org/2000/svg')
@@ -15,4 +17,37 @@ block content
     #post
       .card
         .posts-empty Loading...
+
+  a(onclick='createPost()').btn-floating.btn-large.waves-effect.waves-light.red
+    svg(fill='#FFF', height='30', style="margin-top: 12px", viewbox='0 0 24 24', width='30', xmlns='http://www.w3.org/2000/svg')
+      path(d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z')
+      path(d='M0 0h24v24H0z', fill='none')
+  #createModal.modal
+    .modal-content
+      h4 Create post
+      textarea#textarea-title.materialize-textarea
+      textarea#textarea1.materialize-textarea
+
+      //canvas(id="canvas")
+      .canvasOverlay
+        .canvasColours
+          .canvasColour(style="background:red;", onclick='onColourClick("red")')
+          .canvasColour(style="background:blue;", onclick='onColourClick("blue")')
+          .canvasColour(style="background:yellow;", onclick='onColourClick("yellow")')
+          .canvasColour(style="background:green;", onclick='onColourClick("green")')
+          .canvasSticker(style="background:pink;", onclick='onToggleStickers()')
+        #stickerContainer.stickerDiv(style="display: none")
+          .sticker(onclick='onClickEmoji("laugh")')= "😂"
+          .sticker(onclick='onClickEmoji("cry")')= "😭"
+          .sticker(onclick='onClickEmoji("lit")')= "🔥"
+        #canvasDiv.canvas
+
+        #stickerSizer.stickerSizer(style="display: none")
+          .stickerSizerUp(onclick="onStickerSizeChange(1)")= "+"
+          .stickerSizerDown(onclick="onStickerSizeChange(-1)")= "-"
+
+    .modal-footer
+      a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!', onclick='onCreatePost()') Agree
+
+
   script(src='/javascripts/index.js')

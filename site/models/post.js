@@ -14,6 +14,15 @@ let post = {
 		});
 	},
 
+	createPost(userId, title, content, callback) {
+		console.log(userId);
+		dbPromise.then((db) => {
+			db.run(`INSERT INTO Post (id, userId, longitude, latitude, title, content, upVotes, downVotes) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)`, [userId, 0, 0, title, content, 0, 0 ]).then(post => {
+				callback();
+			});
+		});
+	},
+
 	getPosts(callback) {
 		dbPromise.then((db) => {
 			db.all('SELECT * FROM Post INNER JOIN User ON Post.userId=User.id LIMIT 10').then(posts => {

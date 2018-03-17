@@ -95,6 +95,7 @@ let Auth = {
 
     req.session.loggedIn = 1;
     req.session.accessToken = token.token;
+		req.session.userId = userID;
 
     res.setHeader('Content-Type', 'application/json');
 

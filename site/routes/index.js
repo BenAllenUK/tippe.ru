@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 		if (Auth.validateAccessTokenForUser(accessToken, userId)) {
 			req.session.loggedIn = 1;
 			req.session.accessToken = accessToken;
+			req.session.userId = userId;
 			req.session.save();
 		}
 	}
