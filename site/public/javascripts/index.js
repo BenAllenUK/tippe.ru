@@ -99,6 +99,19 @@ function onBackButton() {
 	$("#itemView").animate({"opacity" : 0}).css({"display": "none"});
 }
 
+function onCreatePost() {
+	let textContainer = $('#textarea1');
+	let titleContainer = $('#textarea-title');
+
+	let title = titleContainer.val();
+	let content = textContainer.val();
+
+	$.ajax({ url:'/api/posts/create', type:'POST', data: { title: title, content: content } }).done(function(response) {
+		textContainer.val("");
+		titleContainer.val("");
+	});
+}
+
 function postUpVote() {
 	alert("Upvoted");
 }
@@ -290,17 +303,4 @@ function onStickerSizeChange(size) {
 		redraw();
 	}
 
-}
-
-function onCreatePost() {
-	let textContainer = $('#textarea1');
-	let titleContainer = $('#textarea-title');
-
-	let title = titleContainer.val();
-	let content = textContainer.val();
-
-	$.ajax({ url:'/api/posts/create', type:'POST', data: { title: title, content: content } }).done(function(response) {
-		textContainer.val("");
-		titleContainer.val("");
-	});
 }
