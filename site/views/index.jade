@@ -14,7 +14,8 @@ block content
           .posts-empty Loading...
 
   #itemView(style="display: none;opacity:0;").itemView
-    #post
+
+    #post.posts
       .card
         .posts-empty Loading...
 
@@ -25,10 +26,11 @@ block content
   #createModal.modal
     .modal-content
       h4 Create post
-      textarea#textarea-title.materialize-textarea
+      input(placeholder="Title", type="text", class="validate", id="input-title")
+
+      label(for="textarea1") Post content
       textarea#textarea1.materialize-textarea
 
-      //canvas(id="canvas")
       .canvasOverlay
         .canvasColours
           .canvasColour(style="background:red;", onclick='onColourClick("red")')

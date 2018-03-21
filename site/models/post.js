@@ -25,7 +25,7 @@ let post = {
 
 	getPosts(callback) {
 		dbPromise.then((db) => {
-			db.all('SELECT * FROM Post INNER JOIN User ON Post.userId=User.id LIMIT 10').then(posts => {
+			db.all('SELECT * FROM Post INNER JOIN User ON Post.userId=User.id').then(posts => {
 				callback(posts);
 			});
 		});

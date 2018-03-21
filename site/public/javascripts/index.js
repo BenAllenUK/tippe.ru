@@ -101,15 +101,20 @@ function onBackButton() {
 
 function onCreatePost() {
 	let textContainer = $('#textarea1');
-	let titleContainer = $('#textarea-title');
+	let titleContainer = $('#input-title');
 
 	let title = titleContainer.val();
 	let content = textContainer.val();
+	console.log('transmittedint')
 
-	$.ajax({ url:'/api/posts/create', type:'POST', data: { title: title, content: content } }).done(function(response) {
+	$.ajax({ url:'/api/posts/create', type:'POST', data: { title: title, content: content } }).done(function() {
 		textContainer.val("");
 		titleContainer.val("");
+		onRefresh();
+		console.log('refresh called')
 	});
+
+
 }
 
 function postUpVote() {
