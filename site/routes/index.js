@@ -36,7 +36,7 @@ router.get('/logout', function(req, res, next) {
   res.cookie('accessToken', '', { expires: new Date()});
 
   res.render('logout', { title: 'Signed Out' });
-})
+});
 
 // MISC
 
