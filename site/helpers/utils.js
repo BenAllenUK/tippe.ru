@@ -13,7 +13,13 @@ let Utils =  {
 	},
 	isValidUsername: function(username) {
 		return true;
-	}
+	},
+  toRadians: function(angle) {
+    return angle * (Math.PI / 180.0);
+  },
+  toDegrees: function(angle) {
+    return angle * (180.0 / Math.PI);
+  }
 };
 
 module.exports = Utils;

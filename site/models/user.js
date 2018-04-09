@@ -30,7 +30,10 @@ User.getStoredPassword = function(userID)
 		console.log(userID);
     return new Promise(function(resolve, reject) {
 			db.get(`SELECT User.id, User.password, User.salt FROM User WHERE User.id=${userID} LIMIT 1`).then(row => {
-        resolve({val: row.password, salt: row.salt});
+        if(row == undefined)
+          resolve({val: '', salt: ''});
+        else
+          resolve({val: row.password, salt: row.salt});
 			}).catch(err => {
 				console.log(err);
 				resolve({val: '', salt: ''});

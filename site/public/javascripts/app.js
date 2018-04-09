@@ -36,6 +36,24 @@ function ajaxRequest(method, endpoint, content, callback)
   xhr.send(JSON.stringify(content));
 }
 
+// wrapper for geolocation, callback is garanteed to return
+function getGeoLocation(callback)
+{
+  if (navigator.geolocation)
+  {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        callback(position);
+    	}, function(error) {
+        callback(undefined);
+      },
+      { timeout: 4000 });
+  }
+  else
+  {
+    callback(undefined);
+  }
+}
+
 /** ANIMATION **/
 
 function animateLoadingText(num) {

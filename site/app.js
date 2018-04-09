@@ -36,6 +36,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const dbPromise = Promise.resolve()
+	.then(() => db.open('./database.db', { Promise }))
+	.then(db => db.migrate({ force: 'last' }));
+
 app.use('/', index);
 app.use('/api/users', users);
 app.use('/api/authenticate', authenticate);

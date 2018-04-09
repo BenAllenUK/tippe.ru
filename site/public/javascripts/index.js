@@ -68,15 +68,24 @@ function onLoadIndex() {
 function onRefresh() {
 	startAnimateRefreshIcon();
 	let postContainer = $('#postsMain');
-	postsMain.innerHTML = "hi";
+	postsMain.innerHTML = "";
 
-	$.ajax({ url:'/api/posts', type:'GET' }).done(function(response) {
-		postContainer.html("");
-		stopAnimateRefreshIcon();
-		response.forEach(function(item) {
-			postContainer.append(markup(item))
-		});
-	});
+  getGeoLocation(function(position)
+  {
+    if(position == undefined)
+    {
+      postsMain.innerHTML = "Unable to get location";
+      return;
+    }
+
+    ajaxRequest('GET', '/api/posts?lat=' + position.coords.latitude + "&long=" + position.coords.longitude, {}, function(status, response) {
+      postContainer.html("");
+      stopAnimateRefreshIcon();
+      response.forEach(function(item) {
+        postContainer.append(markup(item))
+      });
+    });
+  })
 }
 
 function onViewItem(itemId) {
@@ -84,7 +93,7 @@ function onViewItem(itemId) {
 	$("#listView").animate({"opacity" : 0}).css({"display": "none"});
 	$("#backButton").css({"display": "block"}).animate({"opacity" : 1});
 
-	$.ajax({ url: '/api/posts/' + itemId, type:'GET' }).done(function(response) {
+	ajaxRequest('GET', '/api/posts/' + itemId, '', function(status, response) {
 		let postContainer = $('#post');
 		postContainer.html("");
 		postContainer.append(postMarkup(response));
@@ -105,16 +114,23 @@ function onCreatePost() {
 
 	let title = titleContainer.val();
 	let content = textContainer.val();
-	console.log('transmittedint')
+	console.log('transmittedint');
 
-	$.ajax({ url:'/api/posts/create', type:'POST', data: { title: title, content: content } }).done(function() {
-		textContainer.val("");
-		titleContainer.val("");
-		onRefresh();
-		console.log('refresh called')
-	});
+  getGeoLocation(function(position)
+  {
+    if(position == undefined)
+    {
+      alert("Unable to get location");
+      return;
+    }
 
-
+  	ajaxRequest('POST', '/api/posts/create?lat=' + position.coords.latitude + "&long=" + position.coords.longitude, { title: title, content: content }, function(status, response) {
+  		textContainer.val("");
+  		titleContainer.val("");
+  		onRefresh();
+  		console.log('refresh called')
+  	});
+  });
 }
 
 function postUpVote() {

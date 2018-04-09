@@ -50,8 +50,8 @@ router.post('/', function(req, res, next) {
       user.getStoredPassword(userID).then((password) => {
         if(password.val == '' || !auth.checkPassword(req_body.password, password.val, password.salt))
         {
-          // error.send(res, error.invalidCredentials);
-          // return;
+          error.send(res, error.invalidCredentials);
+          return;
         }
 
         auth.sendAccessTokenForUser(userID, req, res, next);
