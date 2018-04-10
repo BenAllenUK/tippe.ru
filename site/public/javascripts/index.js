@@ -28,8 +28,8 @@ const markup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes"><a onclick="postUpVote()" href="#"> 👍<br/>${message.upVotes}</a></div>
-			<div class="card-downvotes"><a onclick="postDownVote()" href="#">👎<br/>${message.downVotes}</a></div>
+			<div class="card-upvotes"><a onclick="postUpVote(${message.id})" href="#"> 👍<br/>${message.upVotes}</a></div>
+			<div class="card-downvotes"><a onclick="postDownVote(${message.id})" href="#">👎<br/>${message.downVotes}</a></div>
 		</div>
 	</div>
  </div>
@@ -50,8 +50,8 @@ const postMarkup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes"><a onclick="postUpVote()" href="#"> 👍<br/>${message.upVotes}</a></div>
-			<div class="card-downvotes"><a onclick="postDownVote()" href="#">👎<br/>${message.downVotes}</a></div>
+			<div class="card-upvotes"><a onclick="postUpVote(${message.id})" href="#"> 👍<br/>${message.upVotes}</a></div>
+			<div class="card-downvotes"><a onclick="postDownVote(${message.id})" href="#">👎<br/>${message.downVotes}</a></div>
 		</div>
 	</div>
  </div>
@@ -132,12 +132,18 @@ function onCreatePost() {
   });
 }
 
-function postUpVote() {
-	alert("Upvoted");
+function postUpVote(itemId) {
+	sendVote(itemId, 1);
 }
 
-function postDownVote() {
-	alert("Downvoted");
+function postDownVote(itemId) {
+	sendVote(itemId, -1);
+}
+
+function sendVote(itemId, vote)
+{
+	ajaxRequest('POST', '/api/posts/upvote', { postId: itemId, vote: vote }, function(status, response) {
+	});
 }
 
 function createPost() {

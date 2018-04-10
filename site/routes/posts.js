@@ -70,4 +70,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/**
+ */
+router.post('/upvote', function(req, res, next) {
+	let postId = req.body.postId;
+	let userId = req.session.userId;
+	let vote = req.body.vote;
+
+	if(postId == undefined ||
+		 userId == undefined ||
+	 	 vote == undefined)
+  {
+    error.send(res, error.invalidRequest);
+    return;
+  }
+
+	post.setUpvote(postId, userId, vote).then(() => {
+		res.send({ success: true });
+	}).catch((err) => {
+		console.log(err);
+		res.send({ success: false });
+	});
+});
+
 module.exports = router;

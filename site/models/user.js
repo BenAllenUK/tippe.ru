@@ -74,9 +74,9 @@ User.addUser = function(email, username, password, googleUserID)
 			}
 
 			return new Promise(function(resolve, reject) {
-				db.run('INSERT INTO User (name, email, googleUserID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then(() => {
+				db.run('INSERT INTO User (name, email, googleUserID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then((result) => {
 					console.log('Added');
-					resolve();
+					resolve(result.lastID);
 				}).catch((err) => {
           reject(err);
         });

@@ -34,6 +34,60 @@ let post = {
 				callback(posts);
 			});
 		});
+	},
+
+	//sets whether a user has upvoted a post or not, 0 indicates no vote, 1 indicates upvote, 2 indicates downvotes
+	setUpvote(postId, userId, newVote) {
+		let upVoteChange = 0;
+		let downVoteChange = 0;
+
+		if(newVote > 0)
+		{
+			newVote = 1;
+			upVoteChange = 1;
+		}
+		else if (newVote < 0)
+		{
+			newVote = -1;
+			downVoteChange = 1;
+		}
+
+
+		return new Promise(function(resolve, reject) {
+			dbPromise.then((db) => {
+				db.get(`SELECT * FROM Upvote WHERE Upvote.userId='${userId}' AND Upvote.postId='${postId}'`).then((row) => {
+					let previousVote = 0;
+
+					if(row != undefined)
+					{
+						previousVote = row.vote;
+					}
+
+					if(previousVote == newVote)
+					{
+						resolve();
+						return;
+					}
+
+					// if we had previously voted ensure we subtract that vote from the totals
+					if(previousVote != 0 && upVoteChange > 0)
+						downVoteChange = -1;
+					else if(previousVote != 0 && downVoteChange > 0)
+						upVoteChange = -1;
+
+					dbPromise.then(db => {
+						db.run(`BEGIN;`);
+						db.run(`INSERT OR REPLACE INTO Upvote (userId, postId, vote) VALUES(${userId}, ${postId}, ${newVote});`);
+						db.run(`UPDATE OR ROLLBACK Post SET upVotes = upVotes + ${upVoteChange}, downVotes = downVotes + ${downVoteChange} WHERE Post.id=${postId};`);
+						db.run(`COMMIT;`);
+					}).then(() => {
+						resolve();
+					}).catch((err) => {
+						reject(err);
+					});
+				});
+			});
+		});
 	}
 
 	// TODO: Add Post
