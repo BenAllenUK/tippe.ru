@@ -39,6 +39,7 @@ function ajaxRequest(method, endpoint, content, callback)
 // wrapper for geolocation, callback is garanteed to return
 function getGeoLocation(callback)
 {
+
   if (navigator.geolocation)
   {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -46,7 +47,7 @@ function getGeoLocation(callback)
     	}, function(error) {
         callback(undefined);
       },
-      { timeout: 4000 });
+      { timeout: 60000 });
   }
   else
   {

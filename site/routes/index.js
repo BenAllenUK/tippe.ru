@@ -5,6 +5,7 @@ let Auth = require('../helpers/auth');
 let router = express.Router();
 
 router.get('/', function(req, res, next) {
+
 	// Attempt to login automatically
 	if (req.session.loggedIn != 1 && req.cookies.accessToken && req.cookies.userId && req.cookies.accessToken.length > 0) {
 		console.log('Automatically logged in');

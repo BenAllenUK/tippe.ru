@@ -38,7 +38,7 @@ router.post('/create', function(req, res, next) {
  *
  */
 router.get('/:id', function(req, res, next) {
-	res.setHeader('Content-Type', 'application/json');
+	res.setHeader('Content-Type', 'application/json; charset=utf-8');
 	post.getPost(req.params.id, function (data) {
 		res.send(data);
 	});
@@ -50,7 +50,7 @@ router.get('/:id', function(req, res, next) {
  * 	Endpoint: /api/posts
  */
 router.get('/', function(req, res, next) {
-	res.setHeader('Content-Type', 'application/json');
+	res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
 
   let req_lat = req.query.lat;
