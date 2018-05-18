@@ -8,6 +8,7 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let db = require('sqlite');
+const request = require('request');
 
 let index = require('./routes/index');
 let users = require('./routes/users');
@@ -49,6 +50,19 @@ app.use('/api/posts', posts);
 app.use(function(req, res, next) {
 	res.redirect("/");
 });
+
+var WebSocketServer = require('ws').Server,
+	wss = new WebSocketServer({port: 40510})
+wss.on('connection', function (ws) {
+	ws.on('message', function (message) {
+		console.log('received: %s', message);
+
+		request('https://icanhazdadjoke.com/', { json: true }, (err, res, body) => {
+			if (err) { return console.log(err); }
+			ws.send(res.body.joke);
+		});
+	});
+})
 
 // error handler
 app.use(function(err, req, res, next) {

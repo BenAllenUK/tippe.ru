@@ -1,0 +1,152 @@
+extends layout
+
+block content
+    .card.standard
+        h1(style="font-size:20px;") Tipper.Ru Project Information
+        p Tippe.ru is an anonymous secret sharing website. It is a single page web application that allows the user to seamlessly interact with content via Asynchronous network requests. A user can post text and use a HTML canvas to post drawings directly in browser. We allow login using a google account or via our own login system. Considerable effort has been put into creating bespoke vector and raster assets which make up the app’s style which is responsive for use on mobile devices. The app is driven by a backend RESTful API attached to a database which has been continuously tested during development.
+        p For your convenience, please find a breakdown of individual elements of this project..
+    .card.standard
+        h1(style="font-size:20px; ") Database Structure
+        p We use an SQLite database, we've implemented SQL queries for finding, updating, deleting and inserting data.
+            | We implement advance SQL queries to cross query multiple tables to avoid the need for multiple requests.
+            | We implemented complex SQL using transactions for the Upvoting system.
+
+        div(style="margin: 0 auto")
+            svg(width='700px', height='416px', viewbox='0 0 700 416', version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink')
+                title Group
+                defs
+                    lineargradient#linearGradient-1(x1='50%', y1='0%', x2='50%', y2='100%')
+                        stop(stop-color='#FFFFFF', offset='0%')
+                        stop(stop-color='#D7D7D7', offset='100%')
+                g#Page-1(stroke='none', stroke-width='1', fill='none', fill-rule='evenodd')
+                    g#Group
+                        rect#Rectangle(stroke='#979797', x='0.5', y='0.5', width='699', height='415')
+                        rect#Rectangle-3(fill='url(#linearGradient-1)', transform='translate(316.500000, 265.500000) scale(-1, 1) translate(-316.500000, -265.500000) ', x='237', y='229', width='159', height='73')
+                        rect#Rectangle-3(fill='url(#linearGradient-1)', transform='translate(316.500000, 86.500000) scale(-1, 1) translate(-316.500000, -86.500000) ', x='237', y='50', width='159', height='73')
+                        rect#Rectangle-3(fill='url(#linearGradient-1)', transform='translate(527.500000, 87.500000) scale(-1, 1) translate(-527.500000, -87.500000) ', x='448', y='51', width='159', height='73')
+                        rect#Rectangle-3(fill='url(#linearGradient-1)', transform='translate(111.500000, 86.500000) scale(-1, 1) translate(-111.500000, -86.500000) ', x='32', y='50', width='159', height='73')
+                        text#USERS(font-family='Arial-BoldMT, Arial', font-size='30', font-weight='bold', fill='#FFFFFF')
+                            tspan(x='58', y='102') USERS
+                        g#posts(transform='translate(242.000000, 56.000000)')
+                            rect#Rectangle-2(fill='#D8D8D8', x='2', y='0', width='144', height='144')
+                            path#Line(d='M0.5,70.5 L145.5,70.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,90.5 L145.5,90.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,110.5 L145.5,110.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,130.5 L145.5,130.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            text#POSTS(font-family='Arial-BoldMT, Arial', font-size='30', font-weight='bold', fill='#FFFFFF')
+                                tspan(x='23.1552734', y='46') POSTS
+                        g#posts(transform='translate(37.000000, 56.000000)')
+                            rect#Rectangle-2(fill='#D8D8D8', x='2', y='0', width='144', height='144')
+                            path#Line(d='M0.5,70.5 L145.5,70.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,90.5 L145.5,90.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,110.5 L145.5,110.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,130.5 L145.5,130.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            text#USERS(font-family='Arial-BoldMT, Arial', font-size='30', font-weight='bold', fill='#FFFFFF')
+                                tspan(x='22.3203125', y='46') USERS
+                        g#posts(transform='translate(242.000000, 235.000000)')
+                            rect#Rectangle-2(fill='#D8D8D8', x='2', y='0', width='144', height='144')
+                            path#Line(d='M0.5,70.5 L145.5,70.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,90.5 L145.5,90.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,110.5 L145.5,110.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,130.5 L145.5,130.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            text#REGIONS(font-family='Arial-BoldMT, Arial', font-size='30', font-weight='bold', fill='#FFFFFF')
+                                tspan(x='4.82275391', y='46') REGIONS
+                        g#posts(transform='translate(454.000000, 57.000000)')
+                            rect#Rectangle-2(fill='#D8D8D8', x='2', y='0', width='144', height='144')
+                            path#Line(d='M0.5,70.5 L145.5,70.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,90.5 L145.5,90.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,110.5 L145.5,110.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            path#Line(d='M0.5,130.5 L145.5,130.5', stroke='#FFFFFF', stroke-width='7', stroke-linecap='square')
+                            text#UPVOTE(font-family='Arial-BoldMT, Arial', font-size='30', font-weight='bold', fill='#FFFFFF')
+                                tspan(x='12.3227539', y='46') UPVOTE
+                        text#built-using-SVGS(font-family='Arial-BoldMT, Arial', font-size='10', font-weight='bold', fill='#000000')
+                            tspan(x='608', y='388') built using SVGS
+                        path#Line-2(d='M189.5,130.5 L241.5,130.5', stroke='#979797', stroke-linecap='square')
+                        text#1(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='188.219238', y='125') 1
+                        text#n(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='236.219238', y='125') n
+                        path#Line-2(d='M394.5,130.5 L446.5,130.5', stroke='#979797', stroke-linecap='square')
+                        path#Line-2(d='M316.5,203.5 L316.5,233.566593', stroke='#979797', stroke-linecap='square')
+                        text#1(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='393.219238', y='125') 1
+                        text#1(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='320.219238', y='232') 1
+                        text#n(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='441.219238', y='125') n
+                        text#n(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='321.219238', y='209') n
+                        text#Users-can-create-acc(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='21.5595703', y='35') Users can create accounts using google
+                            tspan(x='29.9042969', y='46') or regestering with an email address
+                        text#Users-can-create-pos(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='264.367188', y='35') Users can create posts
+                        text#Posts-belong-to-a-ge(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='215.429199', y='393') Posts belong to a geographical region. Regions
+                            tspan(x='231.269043', y='404') cover a range of longitutude and latitude
+                        text#Users-can-vote-on-po(font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='429.116211', y='29.5') Users can vote on posts, but inorder to store
+                            tspan(x='491.923828', y='40.5') individual posts,
+                            tspan(x='464.963379', y='51.5') a intermediate table is used.
+                        text#post-foreign-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='461.702148', y='141') post foreign key
+                        text#user-foreign-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='462.42627', y='160') user foreign key
+                        text#post-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='247.379395', y='140') post key
+                        text#region-foreign-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='247.253906', y='160') region foreign key
+                        text#region-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='251.931152', y='319') region key
+                        text#user-key(opacity='0.475317029', font-family='ArialMT, Arial', font-size='10', font-weight='normal', fill='#000000')
+                            tspan(x='42.1035156', y='140') user key
+    .card.standard
+        h1(style="font-size:20px;") Server Structure
+        p Our backend development was focused on creating high quality code, we used a linter tool to ensure our codebase had a consistent style and to avoid common bugs. We used Travis Continuous Integration to run this linter after every commit to version control.
+        p We also wrote many unit tests for our server which were also ran after every commit automatically. Extending this we implemented automatic deployment of our app to Google App Engine provided the code passed tests via an encrypted key file in our repository.
+        p We are also heavily focused on security, and for this we added a https certificate signed by Let’s Encrypt to ensure user traffic is not visible to a potential attacker. We also ensure that all our 3rd party API keys are stored in environment variables rather than in code to prevent them being used by anyone but us. Travis CI also has records of these keys in an encrypted format for the deployment process.
+        ul
+            li Implemented a RESTful API to handle our login system, posts and location systems.
+            li Implemented unit tests for our server code and used a linter to identify errors and style issues with our server side code.
+            li Hosted our server using Google App Engine and used continuous integration with TravisCI to manage this and run our automated tests.
+            li We use redirections to ensure privileged parts of the site cannot be accessed without prior approval.
+            li We make use of cookies to store tokens that allow for automatic logging in.
+            li We use sessions to allow for smooth access across throughout the site without the need of logging in.
+            li Support for UTF-8 on our backend API.
+            li Cache control is used to avoid data being cached accidentally.
+        p Websockets
+
+    .card.standard
+        h1(style="font-size:20px;") Frontend
+        br
+        b Animation
+        br
+        p We use a variety of forms of animation to achieve the effects we were after. This includes the use of custom animations as seen in the fake loading sequence, and further available from popular framework Materialize to animate button presses. We've created some additional animations for demonstrations as seen below.
+        div(style="width: 300px; height: 150px;")
+            div.demo-move
+                img(src='/images/icon.png', width="64", height="64", alt="Logo").demo-spin
+            div
+                div.demo-move
+                    div.demo-colour(style="width: 64px; height: 64px; color: white; text-align:center; font-size:20px")
+                        T
+        b CSS3
+        br
+        p We leveraged CSS3 for advance styling methods throughout the site. Including gradients, flexbox, border-radius, animation, custom fonts etc
+        p Using common css methods we are able to achieve a responsive website that resizes on mobile, desktop and tablet.
+
+        b PNG/SVG
+        p Advanced techniques were used when producing PNG and SVG graphics. Gimp was utilised to edit images as seen on the posts page. SVG were used when icons are required and also a complex example is demonstrated in the Database section.
+            | Gimp was utilised to produce the graphics for logo, and post page. The functionality of multiple layers, gradients, transparency and airbrushing was key to achieving the effect we were looking for.
+    .card.standard
+        h1(style="font-size:20px;") Javascript
+        b Canvas
+        br
+        p A drawing canvas is used when the a post is created to allow for users to draw images to attach to posts. We allow for the selection of colours and the adding of stickers.
+            | These images can then be saved and attached to the post by rending the image to a base64 encoding.
+        b Single page application (SPA)
+        br
+        p It was incredibly important to use to ensure the website was smooth, quick and easy to use. Therefore we used AJAX requests extensively to create a single page application. This means for the main project page, it can be navigated without any page reloads. We used javascript to handle button presses and changes of state on the page.
+        p While this could of been achieved easily with popular services like React or Angular, doing it ourself allowed us to understand how it can be done and good methods for structuring the code.
+        b Other features
+        br
+        p We  integrated the Google sign in API. We used the HTML5 geolocation API to determine the client's real world location. We used HTML5 canvas to allow the user to paint onto an image they want to upload. This uses an advance custom algorithm to allow dragging and dropping of stickers, custom drawing in multiple colours and enlarging of items.

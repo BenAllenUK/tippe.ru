@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    .card.standard
+        h1(style="font-size:20px;") Simple Websocket demonstration
+        p The following example returns a joke when prompted. We made it too prove our ability to use different communication methods.
+        br
+        div(onclick="socketDemo()")
+            a(class="waves-effect waves-light btn") Open websocket
+        br
+        input(placeholder="message text", id="text-demo", type="text", class="validate")
+        br
+        div(onclick="onSendMessage()")
+            a(class="waves-effect waves-light btn") Send message
+        div#demo-responses(style="padding: 10px; font-family: serif; color: grey; margin: 10px; font-size:12px;")
+
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='/javascripts/materialize.js')
+    script(src='/javascripts/websocket.js')
