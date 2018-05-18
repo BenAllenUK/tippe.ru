@@ -111,6 +111,7 @@ nav {
 .posts .row {
   display: flex;
   align-items: center;
+  flex-flow: row wrap;
 }
 
 .posts .col {
@@ -296,6 +297,34 @@ nav {
   position: fixed;
   right: 10px;
   bottom: 10px;
+}
+
+.socialButton
+{
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 8px;
+}
+
+.socialButton img
+{
+  padding: 0 5px 0 5px;
+  height: 100%;
+}
+
+.sb-fb img
+{
+  height: 60%;
+}
+
+.sb-fb
+{
+  background: #3b5998;
+}
+
+.sb-twitter
+{
+  background: #1DA1F2;
 }
 
 /** Login */
