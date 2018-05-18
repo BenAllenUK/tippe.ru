@@ -4,6 +4,7 @@ html
     title='Tippe.ru'
     link(rel='stylesheet', href='/stylesheets/materialize.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="icon", href="/images/icon.png")
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
   body
 
@@ -15,13 +16,21 @@ html
     #mainPage.mainPage(style="display: none;opacity:0;")
       nav
         .navWrapper
-          #backButton.navWrapperBackButton.navWrapperButton(style="display: none")
+          #backButton.navWrapperBackButton.navWrapperButton(style="display: none").left
             a(class="waves-effect waves-light btn-flat", style='padding: 0; height: 50px' onClick=('onBackButton()'))
               svg(fill='#FFF', height='24', viewbox='0 0 24 24', width='24', xmlns='http://www.w3.org/2000/svg')
                 path(d='M0 0h24v24H0z', fill='none')
                 path(d='M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z')
-          .navWrapperLogo
+          .navWrapperOther(style="margin-left:40px").left
+            a(class="waves-effect waves-light btn-flat", style='padding: 0; height: 50px; color: white;', href='/complex') Project Info
+          .navWrapperOther(style="margin-left:10px").left
+            a(class="waves-effect waves-light btn-flat", style='padding: 0; height: 50px; color: white;', href='/complex') Complex SVG's
+          .navWrapperOther(style="margin-left:10px").left
+            a(class="waves-effect waves-light btn-flat", style='padding: 0; height: 50px; color: white;', href='/sockets') Web Sockets
+          .navWrapperLogo(style="")
             img(src="/images/logo.png", width="130")
+          .navWrapperLogout(style="margin-right: 10px; position: absolute; top: 0; right: 10px;")
+            a(class="waves-effect waves-light btn-flat", style='padding: 0; height: 50px; color: white;', href='/logout') Logout
       block content
 
 

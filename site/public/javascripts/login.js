@@ -99,6 +99,6 @@ function onManualSignIn()
 }
 
 function onSignInError(message) {
-	document.getElementById("login-submit").innerHTML = "Login";
+	// document.getElementById("login-submit").innerHTML = "Login";
 	document.getElementById("login-error").innerHTML = "An error occurred when logging in : " + message;
 }

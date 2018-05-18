@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  #loggedOut(style="display: none;opacity:0;")
-    h2 Sucessfully Logged Out
-    p
+ .card(style="width: 800px; margin: 20px auto; ")
+  #loggedOut(style="display: none;opacity:0;padding: 10px;")
+    h2(style="font-size: 20px; margin: 10px;") Sucessfully Logged Out
+    p(style="text-align: center")
       a(href="./") Log back in
   #loggingOut
-    h2 Logging out...
-    
+    h2(style="font-size: 20px; margin: 10px;") Logging out...
   script(src="/javascripts/keys.js")
   script(src="/javascripts/logout.js")
   script(src="https://apis.google.com/js/platform.js?onload=onGooglePlatformLoaded", async, defer)

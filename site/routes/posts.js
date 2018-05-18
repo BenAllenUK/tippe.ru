@@ -26,7 +26,7 @@ router.post('/create', function(req, res, next) {
   }
 
 	res.setHeader('Content-Type', 'application/json');
-	post.createPost(userId, req.body.title, req.body.content, req_long, req_lat, function() {
+	post.createPost(userId, req.body.title, req.body.content, req.body.dataUrl, req_long, req_lat, function() {
 		res.send({ success: true });
 	});
 });

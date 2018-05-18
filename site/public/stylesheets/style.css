@@ -127,10 +127,17 @@ nav {
   margin-top: 100px;
 }
 
-.itemView .posts .row {
+.itemView .posts .row:first-child {
   height: 400px;
   background: url("/images/post_back.png");
 }
+
+.itemView .posts .row:last-child {
+  height: 400px;
+  background: url("/images/drawing-back.png");
+  background-size: 100%;
+}
+
 
 .posts-refresh {
   margin: 20px auto;
@@ -252,6 +259,21 @@ nav {
   text-align: center;
   display: flex;
   justify-content: space-around;
+  cursor: pointer;
+  position: relative;
+}
+
+.card-votes-overlay {
+  background: #eee;
+  opacity: 0.7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: none;
+  border-radius: 10px;
 }
 
 .card-votes a {
