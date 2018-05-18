@@ -55,6 +55,95 @@ function getGeoLocation(callback)
   }
 }
 
+// returns the value of a parameter or the default value if it was not specified
+function getHTMLParam(paramkey, defaultval = false)
+{
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+
+  for (var i=0;i<vars.length;i++)
+  {
+    var pair = vars[i].split("=");
+    if(pair[0] == paramkey)
+      return pair[1];
+  }
+
+  return defaultval;
+}
+
+function setHTMLParam(paramkey, paramval)
+{
+  var query = window.location.href.split("?");
+  var vars = (query.length > 1) ? query[1].split("&") : [];
+
+  var done = false;
+  var newSearch = "";
+
+  // if the param already exists then replace the value
+  for (var i=0;i<vars.length;i++)
+  {
+    var pair = vars[i].split("=");
+    if(pair[0] == paramkey)
+    {
+      pair[1] = String(paramval);
+      done = true;
+    }
+
+    if(newSearch == "")
+      newSearch = "?"
+    else
+      newSearch = newSearch + "&"
+
+    newSearch = newSearch + pair[0] + "=" + pair[1];
+  }
+
+  if(done == false)
+  {
+    if(newSearch == "")
+      newSearch = "?"
+    else
+      newSearch = newSearch + "&"
+
+    newSearch = newSearch + paramkey + "=" + String(paramval);
+  }
+
+  var newUrl = query[0] + newSearch;
+
+  if (history.pushState) {
+    window.history.pushState("change view", "Title", newUrl);
+  } else {
+    document.location.href = newUrl;
+  }
+}
+
+function removeHTMLParam(paramkey)
+{
+  var query = window.location.href.split("?");
+  var vars = (query.length > 1) ? query[1].split("&") : [];
+  var newSearch = "";
+
+  for (var i=0;i<vars.length;i++)
+  {
+    var pair = vars[i].split("=");
+    if(pair[0] == paramkey) continue;
+
+    if(newSearch == "")
+      newSearch = "?"
+    else
+      newSearch = newSearch + "&"
+
+    newSearch = newSearch + pair[0] + "=" + pair[1];
+  }
+
+  var newUrl = query[0] + newSearch;
+
+  if (history.pushState) {
+    window.history.pushState("change view", "Title", newUrl);
+  } else {
+    document.location.href = newUrl;
+  }
+}
+
 /** ANIMATION **/
 
 function animateLoadingText(num) {

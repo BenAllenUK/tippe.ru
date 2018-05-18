@@ -40,7 +40,14 @@ router.post('/create', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json; charset=utf-8');
 	post.getPost(req.params.id, function (data) {
-		res.send(data);
+    if(data == undefined)
+    {
+      error.send(res, error.postNotFound);
+    }
+    else
+    {
+		    res.send(data);
+    }
 	});
 });
 

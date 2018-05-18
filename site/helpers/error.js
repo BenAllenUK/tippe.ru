@@ -16,6 +16,7 @@ Error.send = function(res, error)
 // Error prototypes
 Error.invalidRequest = { status: 400, title: 'InvalidRequest', msg: 'Request was invalid'};
 Error.userNotFound = { status: 404, title: 'UserNotFound', msg: 'The specified user does not exist'};
+Error.postNotFound = { status: 404, title: 'PostNotFound', msg: 'The specified post does not exist'};
 Error.invalidToken = { status: 401, title: 'InvalidToken', msg: 'The required token was invalid for this request'};
 Error.invalidCredentials = { status: 401, title: 'InvalidCredentials', msg: 'Credientials passed were invalid'};
 

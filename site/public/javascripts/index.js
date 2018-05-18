@@ -63,11 +63,27 @@ const postMarkup = message => `
  </div>
 `;
 
+const postNotFoundMarkup = () => `
+ <div class="card row">
+ 	<div class="col s8 offset-s2">
+    <span class="card-title">We're having trouble loading this post</span>
+    <p class="card-content">Sorry about that</p>
+	</div>
+ </div>
+`;
+
 /** Callbacks **/
 
 function onLoadIndex() {
 	$("#menuButton").animate({"opacity" : 1}).css({"display": "block"});
 	onRefresh();
+
+  var requestedPost =  getHTMLParam("p");
+
+  if(requestedPost != false)
+  {
+    onViewItem(requestedPost);
+  }
 }
 
 function onRefresh() {
@@ -98,11 +114,19 @@ function onViewItem(itemId) {
 	$("#listView").animate({"opacity" : 0}).css({"display": "none"});
 	$("#backButton").css({"display": "block"}).animate({"opacity" : 1});
 
-	ajaxRequest('GET', '/api/posts/' + itemId, '', function(status, response) {
-		let postContainer = $('#post');
-		postContainer.html("");
-		postContainer.append(postMarkup(response));
+  setHTMLParam("p", itemId + "");
 
+	ajaxRequest('GET', '/api/posts/' + itemId, '', function(status, response) {
+    let postContainer = $('#post');
+    postContainer.html("");
+    if(status == 200)
+    {
+      postContainer.append(postMarkup(response));
+    }
+    else
+    {
+      postContainer.append(postNotFoundMarkup());
+    }
 	});
 
 }
@@ -111,6 +135,8 @@ function onBackButton() {
 	$("#backButton").animate({"opacity" : 0}).css({"display": "none"});
 	$("#listView").css({"display": "block"}).animate({"opacity" : 1});
 	$("#itemView").animate({"opacity" : 0}).css({"display": "none"});
+
+  removeHTMLParam("p");
 }
 
 function onCreatePost() {
