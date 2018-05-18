@@ -298,6 +298,20 @@ nav {
   bottom: 10px;
 }
 
+.standard {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 5px;
+  margin-bottom: 10px
+}
+
+.standard p {
+  font-size: 13px;
+  line-height: 16px;
+  color: #383838;
+}
+
 /** Login */
 .loginPage
 {
@@ -331,6 +345,7 @@ nav {
   animation: spin;
   animation-duration: 0.4s;
   animation-iteration-count: infinite;
+
 }
 
 .page-animate-left {
@@ -346,6 +361,23 @@ nav {
 }
 
 
+.demo-spin {
+  animation: spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.demo-move {
+  animation: leftright;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.demo-colour {
+  animation: color_change 1s infinite alternate;
+
+}
+
 /* KEYFRAMES */
 
 @-moz-keyframes spin {
@@ -359,4 +391,15 @@ nav {
 @keyframes spin {
   from {transform:rotate(0deg);}
   to {transform:rotate(360deg);}
+}
+
+@keyframes leftright {
+  from {transform:translate(0px)}
+  to {transform:translate(360px);}
+}
+
+
+@keyframes color_change {
+  from { background-color: blue; transform:rotate(0deg);}
+  to { background-color: red; transform:rotate(360deg);}
 }

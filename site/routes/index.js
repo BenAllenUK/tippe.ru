@@ -30,6 +30,16 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express2', items: {} });
 });
 
+router.get('/info', function(req, res, next) {
+	res.render('info', {});
+	return;
+});
+
+router.get('/sockets', function(req, res, next) {
+	res.render('sockets', {});
+	return;
+});
+
 // LOGOUT
 router.get('/logout', function(req, res, next) {
   req.session.loggedIn = 0;
