@@ -20,16 +20,18 @@ const markup = message => `
 			<img src="images/users/${message.userImage}" onerror="this.src='images/users/default.png'" alt="" width="50" height="50" class="circle posts-profile-icon">
 		</div>
 	</div>
- 	<div class="col s8">
+ 	<div class="col s7">
     <span class="card-title">${message.title}</span>
     <p class="card-content">${message.content}</p>
-
-
+	</div>
+	<div class="col s1">
+		${message.image != "" ?  showAttachmentSVG() : ''}
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes"><a onclick="postUpVote(${message.id})" href="#"> 👍<br/>${message.upVotes}</a></div>
-			<div class="card-downvotes"><a onclick="postDownVote(${message.id})" href="#">👎<br/>${message.downVotes}</a></div>
+			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes == 0 ? "block": "none"}"></div>
+			<div class="card-upvotes"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="#"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="#">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
  </div>
@@ -50,10 +52,14 @@ const postMarkup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes"><a onclick="postUpVote(${message.id})" href="#"> 👍<br/>${message.upVotes}</a></div>
-			<div class="card-downvotes"><a onclick="postDownVote(${message.id})" href="#">👎<br/>${message.downVotes}</a></div>
+			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes ? "block": "none"}"></div>
+			<div class="card-upvotes"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="#"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="#">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
+ </div>
+ <div class="card row">
+ <img src="${message.image}" alt="" width="730" height="300">
  </div>
 `;
 
@@ -137,38 +143,63 @@ function onCreatePost() {
 	let textContainer = $('#textarea1');
 	let titleContainer = $('#input-title');
 
+	let dataurl = document.getElementsByTagName("canvas")[0].toDataURL();
+
+	console.log(dataurl);
 	let title = titleContainer.val();
 	let content = textContainer.val();
 	console.log('transmittedint');
 
-  getGeoLocation(function(position)
-  {
-    if(position == undefined)
-    {
-      alert("Unable to get location");
-      return;
-    }
+	ajaxRequest('POST', '/api/posts/create?lat=51.456&long=-2.5983', { title: title, content: content, dataUrl: dataurl }, function(status, response) {
+		textContainer.val("");
+		titleContainer.val("");
+		onRefresh();
+		console.log('refresh called')
+	});
 
-  	ajaxRequest('POST', '/api/posts/create?lat=' + position.coords.latitude + "&long=" + position.coords.longitude, { title: title, content: content }, function(status, response) {
-  		textContainer.val("");
-  		titleContainer.val("");
-  		onRefresh();
-  		console.log('refresh called')
-  	});
-  });
+  // getGeoLocation(function(position)
+  // {
+  //   if(position == undefined)
+  //   {
+  //     alert("Unable to get location");
+  //     return;
+  //   }
+	//
+  // 	ajaxRequest('POST', '/api/posts/create?lat=' + position.coords.latitude + "&long=" + position.coords.longitude, { title: title, content: content }, function(status, response) {
+  // 		textContainer.val("");
+  // 		titleContainer.val("");
+  // 		onRefresh();
+  // 		console.log('refresh called')
+  // 	});
+  // });
 }
 
-function postUpVote(itemId) {
+function postUpVote(e, itemId, votes) {
+	// if (votes == 0) {
+		let current = parseInt(e.path[0].children[1].innerHTML);
+		e.path[0].children[1].innerHTML = current + 1;
+	// }
+	e.path[2].children[0].style.display = "block";
+	console.log();
+	//card-votes-overlay
 	sendVote(itemId, 1);
+	e.stopPropagation();
 }
 
-function postDownVote(itemId) {
-	sendVote(itemId, -1);
+function postDownVote(e, itemId, votes) {
+	// if (votes == 0) {
+		let current = parseInt(e.path[0].children[1].innerHTML);
+		e.path[0].children[1].innerHTML = current + 1;
+	// }
+	e.path[2].children[0].style.display = "block";
+	sendVote(itemId, 2);
+	e.stopPropagation();
 }
 
 function sendVote(itemId, vote)
 {
 	ajaxRequest('POST', '/api/posts/upvote', { postId: itemId, vote: vote }, function(status, response) {
+
 	});
 }
 
@@ -354,5 +385,24 @@ function onStickerSizeChange(size) {
 		stickerData[selectedEmojiId].fontSize -= 5;
 		redraw();
 	}
+
+}
+
+function showAttachmentSVG() {
+	return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="Bounding_Boxes">
+	<g id="ui_x5F_spec_x5F_header_copy_3">
+	</g>
+	<path fill="none" d="M0,0h24v24H0V0z"/>
+</g>
+<g id="Outline">
+	<g id="ui_x5F_spec_x5F_header">
+	</g>
+	<path d="M16.5,6v11.5c0,2.21-1.79,4-4,4s-4-1.79-4-4V5c0-1.38,1.12-2.5,2.5-2.5s2.5,1.12,2.5,2.5v10.5c0,0.55-0.45,1-1,1
+		s-1-0.45-1-1V6H10v9.5c0,1.38,1.12,2.5,2.5,2.5s2.5-1.12,2.5-2.5V5c0-2.21-1.79-4-4-4S7,2.79,7,5v12.5c0,3.04,2.46,5.5,5.5,5.5
+		s5.5-2.46,5.5-5.5V6H16.5z"/>
+</g>
+</svg>`
 
 }

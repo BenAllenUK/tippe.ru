@@ -1,10 +1,11 @@
 extends layout
 
 block content
+ .card(style="width: 800px; margin: 20px auto; ")
   .loginPage
     .row
      form(class="col s12 l6" id="frm-login" onsubmit="return false;")
-      h1 Login
+      h1(style="font-size:20px; margin-left:10px") Login
       .row
        .input-field.col.s12
          input(id="usernameemail" type="text")
@@ -19,7 +20,7 @@ block content
        button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick="onManualSignIn()") Login
      
      form(class="col s12 l6" id="frm-register" onsubmit="return false;")
-      h1 Create Account
+      h1(style="font-size:20px; margin-left:10px") Create Account
       .row
        .input-field.col.s12
          input(id="email" type="email" class="validate")
@@ -33,11 +34,12 @@ block content
        i(id="register-error" class="col s12 error-text")
       .row
        button(class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6" onClick='showRegisterPage()') Create Account
-    #google-signin-button
+    div(style="margin: 10px auto; width: 300px; padding: 10px;")
+      #google-signin-button
   .registerPage
     .row
       form(class="col s12" id="frm-register2" onsubmit="return false;")
-        h1 Finish creating your account
+        h1(style="font-size:20px; margin-left:10px") Finish creating your account
         .row
           .input-field.col.s12
             input(id="username" type="text")
@@ -45,6 +47,6 @@ block content
         .row
          button(onClick='onFinialiseRegister()' class="btn waves-effect waves-light col l4 s6 offset-l8 offset-s6") Create Account
   
-  script(src="/javascripts/keys.js")
-  script(src="/javascripts/login.js")
-  script(src="https://apis.google.com/js/platform.js?onload=onGooglePlatformLoaded", async, defer)
+    script(src="/javascripts/keys.js")
+    script(src="/javascripts/login.js")
+    script(src="https://apis.google.com/js/platform.js?onload=onGooglePlatformLoaded", async, defer)
