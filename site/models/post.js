@@ -14,22 +14,22 @@ let post = {
 				let posts = [post];
 				let countPromises = [];
 				for (let i = 0; i < posts.length; i++) {
-					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]["id"]}`).then(votes => {
+					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]['id']}`).then(votes => {
 						return Promise.resolve({
-							posvotes: votes.filter(item => item["vote"] == 1).length,
-							negvotes: votes.filter(item => item["vote"] == 2).length,
+							posvotes: votes.filter(item => item['vote'] == 1).length,
+							negvotes: votes.filter(item => item['vote'] == 2).length,
 							position: i
 						});
 					}));
 				}
 				Promise.all(countPromises).then(voteCounts => {
 					for (let i = 0; i < voteCounts.length; i++) {
-						let id = voteCounts[i]["id"];
-						let pos = voteCounts[i]["posvotes"];
-						let neg = voteCounts[i]["negvotes"];
+						let id = voteCounts[i]['id'];
+						let pos = voteCounts[i]['posvotes'];
+						let neg = voteCounts[i]['negvotes'];
 
-						posts[i]["posvotes"] = pos;
-						posts[i]["negvotes"] = neg;
+						posts[i]['posvotes'] = pos;
+						posts[i]['negvotes'] = neg;
 					}
 					console.log(posts);
 					callback(posts[0]);
@@ -40,9 +40,9 @@ let post = {
 	},
 
 	createPost(userId, title, content, dataUrl, longitude, latitude, callback) {
-		console.log("=====");
+		console.log('=====');
 		console.log(dataUrl);
-		console.log("=====");
+		console.log('=====');
     region.getRegionID(longitude, latitude, (regionId) => {
       console.log('Create post in region ' + regionId);
   		dbPromise.then((db) => {
@@ -59,22 +59,22 @@ let post = {
 			db.all(`SELECT Post.id, Post.userId, Post.title, Post.content, Post.upVotes, Post.downVotes, Post.timeCreated, Post.userId, User.name, User.userImage, Post.image  FROM Post INNER JOIN User ON Post.userId=User.id WHERE Post.regionId='${regionId}' ORDER BY Post.timeCreated DESC`).then(posts => {
 				let countPromises = [];
 				for (let i = 0; i < posts.length; i++) {
-					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]["id"]}`).then(votes => {
+					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]['id']}`).then(votes => {
 						return Promise.resolve({
-							posvotes: votes.filter(item => item["vote"] == 1).length,
-							negvotes: votes.filter(item => item["vote"] == 2).length,
+							posvotes: votes.filter(item => item['vote'] == 1).length,
+							negvotes: votes.filter(item => item['vote'] == 2).length,
 							position: i
 						});
 					}));
 				}
 				Promise.all(countPromises).then(voteCounts => {
 					for (let i = 0; i < voteCounts.length; i++) {
-						let id = voteCounts[i]["id"];
-						let pos = voteCounts[i]["posvotes"];
-						let neg = voteCounts[i]["negvotes"];
+						let id = voteCounts[i]['id'];
+						let pos = voteCounts[i]['posvotes'];
+						let neg = voteCounts[i]['negvotes'];
 
-						posts[i]["posvotes"] = pos;
-						posts[i]["negvotes"] = neg;
+						posts[i]['posvotes'] = pos;
+						posts[i]['negvotes'] = neg;
 					}
 					console.log(posts);
 					callback(posts);
@@ -127,10 +127,10 @@ let post = {
 					console.log(newVote);
 
 					dbPromise.then(db => {
-						db.run(`BEGIN;`);
+						db.run('BEGIN;');
 						db.run(`INSERT OR REPLACE INTO Upvote (userId, postId, vote) VALUES(${userId}, ${postId}, ${newVote});`);
 						db.run(`UPDATE OR ROLLBACK Post SET upVotes = upVotes + ${upVoteChange}, downVotes = downVotes + ${downVoteChange} WHERE Post.id=${postId};`);
-						db.run(`COMMIT;`);
+						db.run('COMMIT;');
 					}).then(() => {
 						resolve();
 					}).catch((err) => {
