@@ -8,6 +8,8 @@
 var app = require('./app');
 var debug = require('debug')('test:server');
 var http = require('http');
+const WebSocket = require('ws');
+const request = require('request');
 
 require('dotenv').config({path:  __dirname + '/.env'});
 
@@ -32,7 +34,36 @@ server.on('listening', onListening);
 server.on('error', onError);
 server.listen(port);
 
-module.exports = server;
+var wss = new WebSocket.Server({port: 40510});
+
+wss.on('connection', function (ws) {
+	ws.on('message', function (message) {
+		console.log('received: %s', message);
+
+		request('https://icanhazdadjoke.com/', { json: true }, (err, res, body) => {
+			if (err) { return console.log(err); }
+			ws.send(res.body.joke);
+		});
+	});
+});
+
+// dirty fix as per https://github.com/websockets/ws/issues/527
+const wss_server = wss._server;
+
+module.exports = {
+  getWebserver: function() {
+    return server;
+  },
+  close: function(callback) {
+    server.close();
+    wss.close(function() {
+      wss_server.close();
+
+      if(callback)
+        callback();
+    })
+  }
+};
 
 /**
  * Normalize a port into a number, string, or false.

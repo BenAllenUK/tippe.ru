@@ -14,7 +14,7 @@ function onFinialiseRegister()
 
 	ajaxRequest("PUT", "/api/users/create", payload, function(status, responseObj) {
 		if (status == 200) {
-		  window.location.href = "/";
+		  window.location.href = window.location.href;
     }
 	});
 }
@@ -70,7 +70,7 @@ function onGoogleSignIn(googleUser)
 
   ajaxRequest("POST", "/api/authenticate", { googleIdToken: googleUser.getAuthResponse().id_token }, function(status, responseObj) {
       if (status == 200) {
-        window.location.href = "/";
+  		  window.location.href = window.location.href;
       } else if (status == 404) {
         showRegisterPage();
 			}
@@ -90,7 +90,7 @@ function onManualSignIn()
 
   ajaxRequest("POST", "/api/authenticate", payload, function(status, responseObj) {
     if(status == 200) {
-			window.location.href = "/";
+		  window.location.href = window.location.href;
     } else {
       onSignInError(responseObj.message);
     }

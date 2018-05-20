@@ -38,7 +38,7 @@ const markup = message => `
 `;
 
 const postMarkup = message => `
- <div class="card row" onclick="onViewItem(${message.id})">
+ <div class="card row">
 	<div class="col s2">
 		<div class="posts-profile">
 			<img src="images/users/${message.userImage}" onerror="this.src='images/users/default.png'" alt="" width="50" height="50" class="circle posts-profile-icon">
@@ -47,8 +47,6 @@ const postMarkup = message => `
  	<div class="col s8">
     <span class="card-title">${message.title}</span>
     <p class="card-content">${message.content}</p>
-
-
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
@@ -57,6 +55,20 @@ const postMarkup = message => `
 			<div class="card-downvotes"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="#">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
+
+	<div class="col s2 offset-s8">
+    <a class="waves-effect waves-light btn socialButton sb-fb"
+    href="https://www.facebook.com/sharer/sharer.php?s=100&p[url]=${encodeURI(window.location.href)}"
+    target="_blank">
+      <img src='/images/icons/flogo.svg'/><span>Share</span>
+    </a>
+  </div>
+  <div class="col s2">
+    <a class="waves-effect waves-light btn socialButton sb-twitter"
+    href="https://twitter.com/intent/tweet?text=Check%20out%20this%20secret%20on%20tippe.ru&url=${encodeURI(window.location.href)}"
+    target="_blank">
+    <img src='/images/icons/tlogo.svg'/>Tweet</a>
+  </div>
  </div>
  <div class="card row">
  <img src="${message.image}" alt="" width="730" height="300">
