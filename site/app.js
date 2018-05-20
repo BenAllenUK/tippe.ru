@@ -51,19 +51,6 @@ app.use(function(req, res, next) {
 	res.redirect("/");
 });
 
-var WebSocketServer = require('ws').Server,
-	wss = new WebSocketServer({port: 40510});
-wss.on('connection', function (ws) {
-	ws.on('message', function (message) {
-		console.log('received: %s', message);
-
-		request('https://icanhazdadjoke.com/', { json: true }, (err, res, body) => {
-			if (err) { return console.log(err); }
-			ws.send(res.body.joke);
-		});
-	});
-});
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

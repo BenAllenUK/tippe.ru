@@ -9,7 +9,7 @@ function runVNU(cmd, callback)
 {
   // Work with vnu.jar
   // for example get vnu.jar version
-  exec ( `java -jar ${vnu} ` + cmd, callback);
+  exec( `java -jar ${vnu} ` + cmd, callback);
 }
 
 describe('HTML', function()
@@ -19,6 +19,7 @@ describe('HTML', function()
   describe('css files should be valid', function() {
     cssFiles.forEach(function(file) {
       it(file, function(done) {
+        this.timeout(5000);
         runVNU('--css ' + path.resolve(file), function(err, stdout) {
           if (err) done(new Error(err));
           else done();
