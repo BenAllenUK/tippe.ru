@@ -4,6 +4,7 @@ jdk:
 node_js:
 - '8'
 before_install:
+- npm install
 - npm install -g mocha
 - echo $TRAVIS_ENV_FILE > ./site/.env
 cache:
@@ -15,7 +16,7 @@ before_deploy:
     -in client-secret.json.enc -out client-secret.json -d
   - echo $TRAVIS_ENV_FILE > ./site/.env
   - echo '!.env' >> .gitignore
-test: npm test
+script: npm test
 deploy:
   skip_cleanup: true
   provider: gae
