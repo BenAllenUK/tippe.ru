@@ -27,6 +27,7 @@ describe('HTML', function()
   describe('generated html files should be valid', function() {
     var server;
     var serverAddr;
+
     before(function () {
       server = require('../www');
       serverAddr = 'http://localhost:' + server.getWebserver().address().port;
@@ -39,7 +40,6 @@ describe('HTML', function()
     queryPaths.forEach(function(path) {
       it(path, function(done) {
         this.timeout(15000);
-        console.log(`java -jar ${vnu} ${serverAddr}${path}`);
         exec( `java -jar ${vnu} ${serverAddr}${path}`, function(err, stdout) {
           if (err) done(new Error(err));
           else done();
