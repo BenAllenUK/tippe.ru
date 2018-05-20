@@ -49,9 +49,10 @@ block content
         #stickerSizer.stickerSizer(style="display: none")
           .stickerSizerUp(onclick="onStickerSizeChange(1)")= "+"
           .stickerSizerDown(onclick="onStickerSizeChange(-1)")= "-"
+      a(href='javascript:void(0);', onclick='clearCanvas()') Clear Drawing
 
     .modal-footer
-      a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!', onclick='onCreatePost()') Post
+      a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='javascript:void(0);', onclick='onCreatePost()') Post
 
 
   script(src='/javascripts/index.js')

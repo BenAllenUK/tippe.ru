@@ -2,6 +2,7 @@
 
 let express = require('express');
 let Auth = require('../helpers/auth');
+let User = require('../models/user');
 let router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -12,7 +13,8 @@ router.get('/', function(req, res, next) {
 		let accessToken = req.cookies.accessToken;
 		let userId = req.cookies.userId;
 
-		if (Auth.validateAccessTokenForUser(accessToken, userId)) {
+		if (Auth.validateAccessTokenForUser(accessToken, userId) &&
+        User.doesUserExist(userId)) {
 			req.session.loggedIn = 1;
 			req.session.accessToken = accessToken;
 			req.session.userId = userId;

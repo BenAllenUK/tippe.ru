@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
 
       user.getUserIDFromGoogleUserID(gId).then((userID) => {
         console.log(gId + '=>' + userID);
-        auth.sendAccessTokenForUser(userID, req, res, next);
+        auth.sendAccessTokenForUser(userID, req, res);
       }).catch(err => {
         error.send(res, error.userNotFound);
       });
@@ -54,7 +54,7 @@ router.post('/', function(req, res, next) {
           return;
         }
 
-        auth.sendAccessTokenForUser(userID, req, res, next);
+        auth.sendAccessTokenForUser(userID, req, res);
       });
     });
   }

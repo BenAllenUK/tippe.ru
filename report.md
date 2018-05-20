@@ -10,6 +10,7 @@ tippe.ru is an anonymous secret sharing website. The site is built as a web app 
 - We integrated the Google sign in API.
 - We used javascript to handle button presses and changes of state on the page.
 - We used the HTML5 geolocation API to determine the client's real world location.
+- We used the HTML5 history API to track user through our single page app and process the browser back button in a meaningful way
 - We used HTML5 canvas to allow the user to paint onto an image they want to upload. This uses an advance custom algorithm to allow dragging and dropping of stickers, custom drawing in multiple colours and enlarging of items.  
 ![alt text](report/js.png "JS Demo")
 
@@ -35,7 +36,7 @@ tippe.ru is an anonymous secret sharing website. The site is built as a web app 
 ## A for Database
 - We use SQLite
 - We have implemented SQL queries for finding and inserting data.
-- We implement advance SQL queries to cross query multiple tables to avoid the need for multiple requests. 
+- We implement advanced SQL queries to cross query multiple tables to avoid the need for multiple requests.
 - We implemented complex SQL using transactions for the Upvoting system.
 ![alt text](report/database.png "Svg Demo")
 ## A for Dynamic Pages

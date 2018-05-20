@@ -8,8 +8,13 @@ window.addEventListener('load', function() {
 	canvasElement.mouseup(onMouseUp);
 	canvasElement.mouseleave(onMouseLeave);
 
+  window.onpopstate = onHistoryPopState;
 });
 
+
+// 0 - feed
+// 1 - item view
+let curPage = 0;
 
 /** ELEMENTS **/
 
@@ -30,8 +35,8 @@ const markup = message => `
 	<div class="col s2">
 		<div class="card-votes">
 			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes == 0 ? "block": "none"}"></div>
-			<div class="card-upvotes"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="#"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="#">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
  </div>
@@ -51,8 +56,8 @@ const postMarkup = message => `
 	<div class="col s2">
 		<div class="card-votes">
 			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes ? "block": "none"}"></div>
-			<div class="card-upvotes"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="#"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="#">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
 
@@ -70,10 +75,15 @@ const postMarkup = message => `
     <img src='/images/icons/tlogo.svg'/>Tweet</a>
   </div>
  </div>
- <div class="card row">
- <img src="${message.image}" alt="" width="730" height="300">
- </div>
+ ${message.image != "" ?  showDrawingDiv(message) : ''}
 `;
+
+function showDrawingDiv(message)
+{
+  return `<div class="card row">
+    <img src="${message.image}" alt="" width="730" height="300">
+    </div>`;
+}
 
 const postNotFoundMarkup = () => `
  <div class="card row">
@@ -122,14 +132,18 @@ function onRefresh() {
 }
 
 function onViewItem(itemId) {
-	$("#itemView").css({"display": "block"}).animate({"opacity" : 1});
-	$("#listView").animate({"opacity" : 0}).css({"display": "none"});
-	$("#backButton").css({"display": "block"}).animate({"opacity" : 1});
+  setPage(1);
 
   setHTMLParam("p", itemId + "");
 
-	ajaxRequest('GET', '/api/posts/' + itemId, '', function(status, response) {
+  loadViewItem(itemId);
+}
+
+function loadViewItem(itemId)
+{
+  ajaxRequest('GET', '/api/posts/' + itemId, '', function(status, response) {
     let postContainer = $('#post');
+
     postContainer.html("");
     if(status == 200)
     {
@@ -140,14 +154,47 @@ function onViewItem(itemId) {
       postContainer.append(postNotFoundMarkup());
     }
 	});
+}
 
+function onHistoryPopState()
+{
+  var pTag = getHTMLParam("p");
+  if(pTag != false)
+  {
+    // if the new state contains the p tag, view that post
+    setPage(1);
+    loadViewItem(pTag);
+  }
+  else
+  {
+    // otherwise refresh the main page
+    setPage(0);
+  }
+}
+
+function setPage(newPage)
+{
+  if(newPage == curPage) return;
+
+  if(newPage == 0)
+  {
+  	$("#backButton").animate({"opacity" : 0}).css({"display": "none"});
+  	$("#listView").css({"display": "block"}).animate({"opacity" : 1});
+  	$("#itemView").animate({"opacity" : 0}).css({"display": "none"});
+    onRefresh();
+  }
+  else if(newPage == 1)
+  {
+  	$("#itemView").css({"display": "block"}).animate({"opacity" : 1});
+  	$("#listView").animate({"opacity" : 0}).css({"display": "none"});
+  	$("#backButton").css({"display": "block"}).animate({"opacity" : 1});
+  }
+
+  curPage = newPage;
 }
 
 function onBackButton() {
-	$("#backButton").animate({"opacity" : 0}).css({"display": "none"});
-	$("#listView").css({"display": "block"}).animate({"opacity" : 1});
-	$("#itemView").animate({"opacity" : 0}).css({"display": "none"});
-
+  setPage(0);
   removeHTMLParam("p");
 }
 
@@ -157,17 +204,32 @@ function onCreatePost() {
 
 	let dataurl = document.getElementsByTagName("canvas")[0].toDataURL();
 
+  // override as empty string if there is no drawing
+  if(isEmptyDrawing())
+  {
+    dataurl = ""; 
+  }
+
 	console.log(dataurl);
 	let title = titleContainer.val();
 	let content = textContainer.val();
 	console.log('transmittedint');
 
-	ajaxRequest('POST', '/api/posts/create?lat=51.456&long=-2.5983', { title: title, content: content, dataUrl: dataurl }, function(status, response) {
-		textContainer.val("");
-		titleContainer.val("");
-		onRefresh();
-		console.log('refresh called')
-	});
+  getGeoLocation(function(position)
+  {
+    if(position == undefined)
+    {
+      alert("Unable to determine location");
+      return;
+    }
+
+  	ajaxRequest('POST', '/api/posts/create?lat=' + position.coords.latitude + '&long=' + position.coords.longitude, { title: title, content: content, dataUrl: dataurl }, function(status, response) {
+  		textContainer.val("");
+  		titleContainer.val("");
+  		onRefresh();
+  		console.log('refresh called')
+  	});
+  });
 
   // getGeoLocation(function(position)
   // {
@@ -216,6 +278,11 @@ function sendVote(itemId, vote)
 }
 
 function createPost() {
+  // clear any previous data
+  clearCanvas();
+	$('#textarea1').val("");
+	$('#input-title').val("");
+
 	$('#createModal').modal('open');
 }
 
@@ -285,6 +352,21 @@ function redraw(){
 		context.font = stickerData[i].fontSize + "px Arial";
 		context.fillText(stickerData[i].text, stickerData[i].position[0], stickerData[i].position[1]);
 	}
+}
+
+function isEmptyDrawing()
+{
+  return clickX.length == 0 && stickerData == 0;
+}
+
+function clearCanvas()
+{
+  clickX = [];
+  clickY = [];
+  clickDrag = [];
+  stickerData = [];
+  colourHistory = [];
+  redraw();
 }
 
 var movingEmoji = false;

@@ -31,7 +31,7 @@ let post = {
 						posts[i]['posvotes'] = pos;
 						posts[i]['negvotes'] = neg;
 					}
-					console.log(posts);
+					//console.log(posts);
 					callback(posts[0]);
 
 				});
@@ -76,7 +76,7 @@ let post = {
 						posts[i]['posvotes'] = pos;
 						posts[i]['negvotes'] = neg;
 					}
-					console.log(posts);
+					//console.log(posts);
 					callback(posts);
 
 				});

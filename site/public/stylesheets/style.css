@@ -128,15 +128,15 @@ nav {
   margin-top: 100px;
 }
 
-.itemView .posts .row:first-child {
-  height: 400px;
-  background: url("/images/post_back.png");
-}
 
-.itemView .posts .row:last-child {
+.itemView .posts .row {
   height: 400px;
   background: url("/images/drawing-back.png");
   background-size: 100%;
+}
+
+.itemView .posts .row:first-child {
+  background: url("/images/post_back.png");
 }
 
 
@@ -246,8 +246,8 @@ nav {
 }
 
 .canvas {
-  width: 400px;
-  height: 400px;
+  width: 100px;
+  height: 100px;
   position: absolute;
   top: 0;
   left: 0;

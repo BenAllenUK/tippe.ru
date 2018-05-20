@@ -30,7 +30,7 @@ router.put('/create', function(req, res, next) {
   let googleUserID = (typeof req_body.googleUserID === 'undefined') ? '' : req_body.googleUserID;
 
   user.addUser(req_body.email, req_body.username, password, googleUserID).then(userID => {
-    auth.sendAccessTokenForUser(userID, req, res, next);
+    auth.sendAccessTokenForUser(userID, req, res);
   });
 });
 

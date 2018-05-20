@@ -41,6 +41,22 @@ User.getStoredPassword = function(userID)
     });
   };
 
+// returns true if a user with this ID exists
+User.doesUserExist = function(userID)
+  {
+    return new Promise(function(resolve, reject) {
+      db.get(`SELECT User.id FROM User WHERE User.id=${userID} LIMIT 1`).then(row => {
+        if(row == undefined)
+          resolve(false);
+        else
+          resolve(true);
+      }).catch(err => {
+        console.log(err);
+        resolve(false);
+      });
+    });
+  };
+
 //returns a userID when passed a user's email or returns an empty string if that email is not in use
 User.getUserIDFromUsernameEmail = function(usernameEmail)
   {

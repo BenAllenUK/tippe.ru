@@ -83,7 +83,7 @@ let Auth = {
    * @param res
    * @param next
    */
-  sendAccessTokenForUser: function(userID, req, res, next)
+  sendAccessTokenForUser: function(userID, req, res)
   {
     //by default tokens last 1 hour
     let expiry = Math.round((new Date()).getTime() / 1000) + (60 * 60);

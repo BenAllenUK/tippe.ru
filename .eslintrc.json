@@ -14,7 +14,7 @@
             "unix"
         ],
         "quotes": [
-            "warn",
+            "error",
             "single"
         ],
         "semi": [
@@ -25,13 +25,13 @@
           "warn"
         ],
         "no-console":[
-          "off"
+          "warn"
         ],
         "no-mixed-spaces-and-tabs":[
-          "warn"
+          "off"
         ],
         "no-useless-escape": [
-          "warn"
+          "off"
         ]
     }
 }
