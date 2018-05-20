@@ -8,7 +8,6 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let db = require('sqlite');
-const request = require('request');
 
 let index = require('./routes/index');
 let users = require('./routes/users');
