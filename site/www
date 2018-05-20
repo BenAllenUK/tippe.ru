@@ -51,11 +51,16 @@ wss.on('connection', function (ws) {
 const wss_server = wss._server;
 
 module.exports = {
+  getWebserver: function() {
+    return server;
+  },
   close: function(callback) {
     server.close();
     wss.close(function() {
       wss_server.close();
-      callback();
+
+      if(callback)
+        callback();
     })
   }
 };
