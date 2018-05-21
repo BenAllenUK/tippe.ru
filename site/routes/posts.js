@@ -39,7 +39,7 @@ router.post('/create', function(req, res, next) {
  */
 router.get('/:id', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json; charset=utf-8');
-	post.getPost(req.params.id, function (data) {
+	post.getPost(req.params.id, req.session.userId, function (data) {
     if(data == undefined)
     {
       error.send(res, error.postNotFound);
@@ -71,7 +71,7 @@ router.get('/', function(req, res, next) {
 
   region.getRegionID(req_long, req_lat, (regionId) => {
     console.log('Refresh from region ' + regionId);
-    post.getPosts(regionId, function (data) {
+    post.getPosts(regionId, req.session.userId, function (data) {
       res.send(data);
     });
   });

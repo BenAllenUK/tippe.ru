@@ -281,6 +281,10 @@ nav {
   color: #bbb;
 }
 
+.card-votes .active a {
+  color: #000;
+}
+
 .card-upvotes, .card-downvotes {
 
 }
@@ -292,6 +296,9 @@ nav {
 .card-downvotes {
 
 }
+
+
+
 
 .btn-floating {
   position: fixed;

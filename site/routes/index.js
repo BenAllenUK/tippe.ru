@@ -7,29 +7,41 @@ let router = express.Router();
 
 router.get('/', function(req, res, next) {
 
+	let promises = [];
+
 	// Attempt to login automatically
 	if (req.session.loggedIn != 1 && req.cookies.accessToken && req.cookies.userId && req.cookies.accessToken.length > 0) {
-		console.log('Automatically logged in');
 		let accessToken = req.cookies.accessToken;
 		let userId = req.cookies.userId;
 
-		if (Auth.validateAccessTokenForUser(accessToken, userId) &&
-        User.doesUserExist(userId)) {
-			req.session.loggedIn = 1;
-			req.session.accessToken = accessToken;
-			req.session.userId = userId;
-			req.session.save();
+		if (Auth.validateAccessTokenForUser(accessToken, userId)) {
+			let p = User.doesUserExist(userId);
+
+			promises.push(p);
+
+			p.then((exists) => {
+				if(exists)
+				{
+					console.log('Automatically logged in');
+					req.session.loggedIn = 1;
+					req.session.accessToken = accessToken;
+					req.session.userId = userId;
+					req.session.save();
+				}
+			});
 		}
 	}
 
-	// Redirect if not logged in
-	if (req.session.loggedIn != 1) {
-		console.log('No Log in found');
-		res.render('login', { title: 'Login' });
-		return;
-	}
+	Promise.all(promises).then(() => {
+		// Redirect if not logged in
+		if (req.session.loggedIn != 1) {
+			console.log('No Log in found');
+			res.render('login', { title: 'Login' });
+			return;
+		}
 
-	res.render('index', { title: 'Express2', items: {} });
+		res.render('index', { title: 'Express2', items: {} });
+	});
 });
 
 router.get('/info', function(req, res, next) {

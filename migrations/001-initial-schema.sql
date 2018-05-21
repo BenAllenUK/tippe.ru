@@ -58,18 +58,18 @@ CREATE TABLE Upvote (
 );
 
 INSERT INTO Upvote (userId, postId, vote) VALUES (29, 1, 1);
-INSERT INTO Upvote (userId, postId, vote) VALUES (10, 1, 2);
+INSERT INTO Upvote (userId, postId, vote) VALUES (10, 1, -1);
 INSERT INTO Upvote (userId, postId, vote) VALUES (28, 1, 1);
 INSERT INTO Upvote (userId, postId, vote) VALUES (27, 1, 1);
 
-INSERT INTO Upvote (userId, postId, vote) VALUES (25, 2, 2);
+INSERT INTO Upvote (userId, postId, vote) VALUES (25, 2, -1);
 INSERT INTO Upvote (userId, postId, vote) VALUES (28, 2, 1);
 
 INSERT INTO Upvote (userId, postId, vote) VALUES (200, 3, 1);
-INSERT INTO Upvote (userId, postId, vote) VALUES (201, 4, 2);
+INSERT INTO Upvote (userId, postId, vote) VALUES (201, 4, -1);
 
 INSERT INTO Upvote (userId, postId, vote) VALUES (202, 4, 1);
-INSERT INTO Upvote (userId, postId, vote) VALUES (203, 4, 2);
+INSERT INTO Upvote (userId, postId, vote) VALUES (203, 4, -1);
 
 INSERT INTO User (id, name, email, googleUserID, password, salt, userImage) VALUES (1, 'BenAllen', 'ben@example.com', '', 'd69202dab7983f73db4bd15e2fc10cb0b0683d573651c5b0753eef04613a4de9', 'e5614448', 'test1.jpg');
 INSERT INTO User (id, name, email, googleUserID, password, salt, userImage) VALUES (2, 'NickPearson', 'nick@example.com', '', '099c63bace046d961b6f51ffe5e8c6e53a25ee46764a1574612ad677031eef8b', '71918438', 'test2.jpeg');

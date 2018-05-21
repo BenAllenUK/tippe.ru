@@ -8,16 +8,24 @@ const dbPromise = Promise.resolve()
 	.then(() => db.open('./database.db', { Promise }));
 
 let post = {
-	getPost(itemId, callback) {
+	getPost(itemId, inUserId, callback) {
 		dbPromise.then((db) => {
 			db.get(`SELECT Post.id, Post.userId, Post.title, Post.content, Post.upVotes, Post.downVotes, Post.timeCreated, Post.userId, User.name, User.userImage, Post.image FROM Post JOIN User ON Post.userId=User.id WHERE Post.id='${itemId}' LIMIT 1`).then(post => {
 				let posts = [post];
 				let countPromises = [];
 				for (let i = 0; i < posts.length; i++) {
+					posts[i]['userVote'] = 0;
+
 					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]['id']}`).then(votes => {
+						let userVote = votes.filter(item => item['userId'] == inUserId);
+						if(userVote.length != 0)
+						{
+							posts[i]['userVote'] = userVote[0]['vote'];
+						}
+
 						return Promise.resolve({
 							posvotes: votes.filter(item => item['vote'] == 1).length,
-							negvotes: votes.filter(item => item['vote'] == 2).length,
+							negvotes: votes.filter(item => item['vote'] == -1).length,
 							position: i
 						});
 					}));
@@ -54,15 +62,23 @@ let post = {
     });
 	},
 
-	getPosts(regionId, callback) {
+	getPosts(regionId, inUserId, callback) {
 		dbPromise.then((db) => {
 			db.all(`SELECT Post.id, Post.userId, Post.title, Post.content, Post.upVotes, Post.downVotes, Post.timeCreated, Post.userId, User.name, User.userImage, Post.image  FROM Post INNER JOIN User ON Post.userId=User.id WHERE Post.regionId='${regionId}' ORDER BY Post.timeCreated DESC`).then(posts => {
 				let countPromises = [];
 				for (let i = 0; i < posts.length; i++) {
+					posts[i]['userVote'] = 0;
+
 					countPromises.push(db.all(`SELECT * FROM Upvote WHERE Upvote.postId=${posts[i]['id']}`).then(votes => {
+						let userVote = votes.filter(item => item['userId'] == inUserId);
+						if(userVote.length != 0)
+						{
+							posts[i]['userVote'] = userVote[0]['vote'];
+						}
+
 						return Promise.resolve({
 							posvotes: votes.filter(item => item['vote'] == 1).length,
-							negvotes: votes.filter(item => item['vote'] == 2).length,
+							negvotes: votes.filter(item => item['vote'] == -1).length,
 							position: i
 						});
 					}));

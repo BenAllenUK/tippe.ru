@@ -34,9 +34,8 @@ const markup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes == 0 ? "block": "none"}"></div>
-			<div class="card-upvotes"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
  </div>
@@ -55,9 +54,8 @@ const postMarkup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-votes-overlay" onclick="(e) => e.stopPropagation()" style="display: ${message.posvotes == 0 && message.negvotes ? "block": "none"}"></div>
-			<div class="card-upvotes"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
 
@@ -207,7 +205,7 @@ function onCreatePost() {
   // override as empty string if there is no drawing
   if(isEmptyDrawing())
   {
-    dataurl = ""; 
+    dataurl = "";
   }
 
 	console.log(dataurl);
@@ -249,25 +247,47 @@ function onCreatePost() {
 }
 
 function postUpVote(e, itemId, votes) {
-	// if (votes == 0) {
-		let current = parseInt(e.path[0].children[1].innerHTML);
-		e.path[0].children[1].innerHTML = current + 1;
-	// }
-	e.path[2].children[0].style.display = "block";
-	console.log();
-	//card-votes-overlay
-	sendVote(itemId, 1);
 	e.stopPropagation();
+	if(e.path[1].classList.contains('active')) return;
+
+	let current = parseInt(e.path[0].children[1].innerHTML);
+	e.path[0].children[1].innerHTML = current + 1;
+
+	e.path[1].classList.add('active');
+
+	let dvLabel = e.path[2].children[1];
+	if(dvLabel.classList.contains('active'))
+	{
+		dvLabel.classList.remove('active');
+
+		let dvCount = dvLabel.children[0].children[1];
+		let current = parseInt(dvCount.innerHTML);
+		dvCount.innerHTML = current - 1;
+	}
+
+	sendVote(itemId, 1);
 }
 
 function postDownVote(e, itemId, votes) {
-	// if (votes == 0) {
-		let current = parseInt(e.path[0].children[1].innerHTML);
-		e.path[0].children[1].innerHTML = current + 1;
-	// }
-	e.path[2].children[0].style.display = "block";
-	sendVote(itemId, 2);
 	e.stopPropagation();
+	if(e.path[1].classList.contains('active')) return;
+
+	let current = parseInt(e.path[0].children[1].innerHTML);
+	e.path[0].children[1].innerHTML = current + 1;
+
+	e.path[1].classList.add('active');
+
+	let dvLabel = e.path[2].children[0];
+	if(dvLabel.classList.contains('active'))
+	{
+		dvLabel.classList.remove('active');
+
+		let dvCount = dvLabel.children[0].children[1];
+		let current = parseInt(dvCount.innerHTML);
+		dvCount.innerHTML = current - 1;
+	}
+
+	sendVote(itemId, -1);
 }
 
 function sendVote(itemId, vote)
