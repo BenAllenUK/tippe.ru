@@ -39,6 +39,9 @@ function ajaxRequest(method, endpoint, content, callback)
 // wrapper for geolocation, callback is garanteed to return
 function getGeoLocation(callback)
 {
+  // For the purpose of this demonstration we default the geo-location to Bristol to avoid no posts showing since this is a prototype project.
+  callback({ coords: { latitude: 51.478897, longitude: -2.636016 }});
+  return;
 
   if (navigator.geolocation)
   {

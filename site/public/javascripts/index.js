@@ -248,14 +248,15 @@ function onCreatePost() {
 
 function postUpVote(e, itemId, votes) {
 	e.stopPropagation();
-	if(e.path[1].classList.contains('active')) return;
+	var path = e.path || (e.composedPath && e.composedPath());
+	if(path[1].classList.contains('active')) return;
 
-	let current = parseInt(e.path[0].children[1].innerHTML);
-	e.path[0].children[1].innerHTML = current + 1;
+	let current = parseInt(path[0].children[1].innerHTML);
+	path[0].children[1].innerHTML = current + 1;
 
-	e.path[1].classList.add('active');
+	path[1].classList.add('active');
 
-	let dvLabel = e.path[2].children[1];
+	let dvLabel = path[2].children[1];
 	if(dvLabel.classList.contains('active'))
 	{
 		dvLabel.classList.remove('active');
@@ -270,14 +271,15 @@ function postUpVote(e, itemId, votes) {
 
 function postDownVote(e, itemId, votes) {
 	e.stopPropagation();
-	if(e.path[1].classList.contains('active')) return;
+	var path = e.path || (e.composedPath && e.composedPath());
+	if(path[1].classList.contains('active')) return;
 
-	let current = parseInt(e.path[0].children[1].innerHTML);
-	e.path[0].children[1].innerHTML = current + 1;
+	let current = parseInt(path[0].children[1].innerHTML);
+	path[0].children[1].innerHTML = current + 1;
 
-	e.path[1].classList.add('active');
+	path[1].classList.add('active');
 
-	let dvLabel = e.path[2].children[0];
+	let dvLabel = path[2].children[0];
 	if(dvLabel.classList.contains('active'))
 	{
 		dvLabel.classList.remove('active');
