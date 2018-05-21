@@ -70,7 +70,7 @@ router.get('/', function(req, res, next) {
   }
 
   region.getRegionID(req_long, req_lat, (regionId) => {
-    console.log('Refresh from region ' + regionId);
+    //console.log('Refresh from region ' + regionId);
     post.getPosts(regionId, req.session.userId, function (data) {
       res.send(data);
     });
@@ -95,7 +95,7 @@ router.post('/upvote', function(req, res, next) {
 	post.setUpvote(postId, userId, vote).then(() => {
 		res.send({ success: true });
 	}).catch((err) => {
-		console.log(err);
+		//console.log(err);
 		res.send({ success: false });
 	});
 });

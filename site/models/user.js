@@ -27,7 +27,7 @@ User.getUserIDFromGoogleUserID = function(googleUserID)
 // returns the password hash stored in the database for this user
 User.getStoredPassword = function(userID)
   {
-		console.log(userID);
+		//console.log(userID);
     return new Promise(function(resolve, reject) {
 			db.get(`SELECT User.id, User.password, User.salt FROM User WHERE User.id=${userID} LIMIT 1`).then(row => {
         if(row == undefined)
@@ -35,7 +35,7 @@ User.getStoredPassword = function(userID)
         else
           resolve({val: row.password, salt: row.salt});
 			}).catch(err => {
-				console.log(err);
+				//console.log(err);
 				resolve({val: '', salt: ''});
 			});
     });
@@ -51,7 +51,7 @@ User.doesUserExist = function(userID)
         else
           resolve(true);
       }).catch(err => {
-        console.log(err);
+        //console.log(err);
         resolve(false);
       });
     });
@@ -91,7 +91,7 @@ User.addUser = function(email, username, password, googleUserID)
 
 			return new Promise(function(resolve, reject) {
 				db.run('INSERT INTO User (name, email, googleUserID, password, salt) VALUES (?, ?, ?, ?, ?);', username, email, googleUserID, hashedPassword, salt).then((result) => {
-					console.log('Added');
+					//console.log('Added');
 					resolve(result.lastID);
 				}).catch((err) => {
           reject(err);

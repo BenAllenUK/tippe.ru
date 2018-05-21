@@ -48,11 +48,11 @@ let post = {
 	},
 
 	createPost(userId, title, content, dataUrl, longitude, latitude, callback) {
-		console.log('=====');
-		console.log(dataUrl);
-		console.log('=====');
+		//console.log('=====');
+		//console.log(dataUrl);
+		//console.log('=====');
     region.getRegionID(longitude, latitude, (regionId) => {
-      console.log('Create post in region ' + regionId);
+      //console.log('Create post in region ' + regionId);
   		dbPromise.then((db) => {
   			let query = 'INSERT INTO Post (id, userId, longitude, latitude, regionId, title, content, upVotes, downVotes, image) VALUES (NULL, ' + userId + ', ' + longitude + ', ' + latitude + ', ' + regionId + ', "' + title + '", "' + content + '", ' + 0 + ', ' + 0 + ', "' + dataUrl + '")';
   			db.run(query).then(post => {
@@ -140,7 +140,7 @@ let post = {
 					else if(previousVote != 0 && downVoteChange > 0)
 						upVoteChange = -1;
 
-					console.log(newVote);
+					//console.log(newVote);
 
 					dbPromise.then(db => {
 						db.run('BEGIN;');
