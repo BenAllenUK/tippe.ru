@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 			p.then((exists) => {
 				if(exists)
 				{
-					console.log('Automatically logged in');
+					//console.log('Automatically logged in');
 					req.session.loggedIn = 1;
 					req.session.accessToken = accessToken;
 					req.session.userId = userId;
@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
 	Promise.all(promises).then(() => {
 		// Redirect if not logged in
 		if (req.session.loggedIn != 1) {
-			console.log('No Log in found');
+			//console.log('No Log in found');
 			res.render('login', { title: 'Login' });
 			return;
 		}

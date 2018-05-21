@@ -34,8 +34,8 @@ const markup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a onclick="postUpVote(event, ${message.id}, this)" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a onclick="postDownVote(event, ${message.id}, this)" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
  </div>
@@ -54,8 +54,8 @@ const postMarkup = message => `
 	</div>
 	<div class="col s2">
 		<div class="card-votes">
-			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, ${message.posvotes})" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
-			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, ${message.negvotes})" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
+			<div class="card-upvotes ${message.userVote == 1 ? "active" : ""}"><a id="card-upvotes-link" onclick="postUpVote(event, ${message.id}, this)" href="javascript:void(0);"> 👍<br/><span id="vote-count">${message.posvotes}</span></a></div>
+			<div class="card-downvotes ${message.userVote == -1 ? "active" : ""}"><a id="card-downvotes-link" onclick="postDownVote(event, ${message.id}, this)" href="javascript:void(0);">👎<br/><span id="vote-count">${message.negvotes}</span></a></div>
 		</div>
 	</div>
 
@@ -246,17 +246,19 @@ function onCreatePost() {
   // });
 }
 
-function postUpVote(e, itemId, votes) {
+function postUpVote(e, itemId, element) {
 	e.stopPropagation();
-	var path = e.path || (e.composedPath && e.composedPath());
-	if(path[1].classList.contains('active')) return;
 
-	let current = parseInt(path[0].children[1].innerHTML);
-	path[0].children[1].innerHTML = current + 1;
+	let div = element.parentElement;
+	if(div.classList.contains('active')) return;
 
-	path[1].classList.add('active');
+	let current = parseInt(div.children[0].children[1].innerHTML);
+	div.children[0].children[1].innerHTML = current + 1;
 
-	let dvLabel = path[2].children[1];
+	div.classList.add('active');
+
+	let dvLabel = div.parentElement.children[1];
+
 	if(dvLabel.classList.contains('active'))
 	{
 		dvLabel.classList.remove('active');
@@ -269,17 +271,18 @@ function postUpVote(e, itemId, votes) {
 	sendVote(itemId, 1);
 }
 
-function postDownVote(e, itemId, votes) {
+function postDownVote(e, itemId, element) {
 	e.stopPropagation();
-	var path = e.path || (e.composedPath && e.composedPath());
-	if(path[1].classList.contains('active')) return;
 
-	let current = parseInt(path[0].children[1].innerHTML);
-	path[0].children[1].innerHTML = current + 1;
+	let div = element.parentElement;
+	if(div.classList.contains('active')) return;
 
-	path[1].classList.add('active');
+	let current = parseInt(div.children[0].children[1].innerHTML);
+	div.children[0].children[1].innerHTML = current + 1;
 
-	let dvLabel = path[2].children[0];
+	div.classList.add('active');
+
+	let dvLabel = div.parentElement.children[0];
 	if(dvLabel.classList.contains('active'))
 	{
 		dvLabel.classList.remove('active');

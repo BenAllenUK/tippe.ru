@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
       let gId = payload.sub;
 
       user.getUserIDFromGoogleUserID(gId).then((userID) => {
-        console.log(gId + '=>' + userID);
+        //console.log(gId + '=>' + userID);
         auth.sendAccessTokenForUser(userID, req, res);
       }).catch(err => {
         error.send(res, error.userNotFound);
